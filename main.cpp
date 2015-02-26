@@ -67,31 +67,25 @@ int main(int argc, char **argv){
     uint8_t *indata, *outdata;
     uint64_t fileLength;
     std::ifstream instr(argv[2]);
-    if(!instr){
-        std::cerr << "Failed to open file: " << argv[2] << std::endl;
-        exit(1);
-    }else{
-        std::string str;
-        instr.seekg(0, std::ios::end);
-        str.reserve(instr.tellg());
-        instr.seekg(0, std::ios::beg);
-        str.assign((std::istreambuf_iterator<char>(instr)),
-                    std::istreambuf_iterator<char>());
-        fileLength = str.length();
-        indata = new uint8_t[fileLength];
-        outdata = new uint8_t[fileLength];
-        memcpy(indata, (void*)(str.c_str()), str.length()-1);
-    }
-    std::cout << (char*)indata << std::endl;
-    encryptString((uint8_t*)argv[4], strlen(argv[4]), indata,
-                  fileLength, outdata, fileLength);
-    std::cout << (char*)outdata << std::endl;
-    decryptString((uint8_t*)argv[4], strlen(argv[4]), outdata,
-                  fileLength, indata, fileLength);
-    std::cout << (char*)indata << std::endl;
-    // Encrypt or decrypt
+
+    // Do I Encrypt or Decrypt?
     if(argv[1][0] == 'e'){
         // Encrypt the given file
+        if(!instr){
+            std::cerr << "Failed to open file: " << argv[2] << std::endl;
+            exit(1);
+        }else{
+            std::string str;
+            instr.seekg(0, std::ios::end);
+            str.reserve(instr.tellg());
+            instr.seekg(0, std::ios::beg);
+            str.assign((std::istreambuf_iterator<char>(instr)),
+                        std::istreambuf_iterator<char>());
+            fileLength = str.length();
+            indata = new uint8_t[fileLength];
+            outdata = new uint8_t[fileLength];
+            memcpy(indata, (void*)(str.c_str()), str.length()-1);
+        }
     }else if(argv[1][0] == 'd'){
         // decrypt the given file
     }else{
