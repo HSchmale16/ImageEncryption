@@ -36,7 +36,7 @@ void encryptString(const uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
     assert(inlen <= outlen);
     uint8_t *KeyCopy = new uint8_t[keyLen];
     memcpy(KeyCopy, KEY, keyLen);
-    for(int i = 0; i < inlen; i++){
+    for(uint64_t i = 0; i < inlen; i++){
         outstr[i] = instr[i] ^ KeyCopy[i % keyLen];
         if((i % keyLen) == 0){
             for(int j = 0; j < keyLen; j++){
@@ -52,7 +52,7 @@ void decryptString(const uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
     assert(inlen <= outlen);
     uint8_t *KeyCopy = new uint8_t[keyLen];
     memcpy(KeyCopy, KEY, keyLen);
-    for(int i = 0; i < inlen; i++){
+    for(uint64_t i = 0; i < inlen; i++){
         outstr[i] = instr[i] ^ KeyCopy[i % keyLen];
         if((i % keyLen) == 0){
             for(int j = 0; j < keyLen; j++){
@@ -61,6 +61,11 @@ void decryptString(const uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
         }
     }
     delete[] KeyCopy;
+}
+
+void writeOutToImage(const char * fname, uint8_t *data,
+                     uint64_t lenData){
+
 }
 
 int main(int argc, char **argv){
