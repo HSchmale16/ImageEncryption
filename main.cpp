@@ -14,22 +14,53 @@
 #include <fstream>
 #include <cstdlib>
 #include <cstring>
+#include <climits>
 #include <string>
 
-void encryptString(uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
-                   uint64_t inlen, uint8_t *outstr, uint64_t outlen){
-    assert(inlen <= outlen);
-    for(int i = 0; i < inlen; i++){
-        outstr[i] = instr[i] ^ KEY[i % keyLen];
-    }
+/** \brief rotates a variables bits right n pos then returns that
+ * \note n is 8 bits only because no standard type in C has more than
+ * 64 bits, 8 bits is more than sufficent for this purpose.
+ */
+template<typename TYP>
+TYP rotateRight(TYP x, uint8_t n){
+    return (x >> n) | (x << ((sizeof(x) * CHAR_BIT) - n));
 }
 
-void decryptString(uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
+template<typename TYP>
+TYP rotateLeft(TYP x, uint8_t n){
+    return (x << n) | (x >> ((sizeof(x) * CHAR_BIT) - n));
+}
+
+void encryptString(const uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
                    uint64_t inlen, uint8_t *outstr, uint64_t outlen){
     assert(inlen <= outlen);
+    uint8_t *KeyCopy = new uint8_t[keyLen];
+    memcpy(KeyCopy, KEY, keyLen);
     for(int i = 0; i < inlen; i++){
-        outstr[i] = instr[i] ^ KEY[i % keyLen];
+        outstr[i] = instr[i] ^ KeyCopy[i % keyLen];
+        if((i % keyLen) == 0){
+            for(int j = 0; j < keyLen; j++){
+                KeyCopy[j] = rotateRight(KeyCopy[j], 1);
+            }
+        }
     }
+    delete[] KeyCopy;
+}
+
+void decryptString(const uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
+                   uint64_t inlen, uint8_t *outstr, uint64_t outlen){
+    assert(inlen <= outlen);
+    uint8_t *KeyCopy = new uint8_t[keyLen];
+    memcpy(KeyCopy, KEY, keyLen);
+    for(int i = 0; i < inlen; i++){
+        outstr[i] = instr[i] ^ KeyCopy[i % keyLen];
+        if((i % keyLen) == 0){
+            for(int j = 0; j < keyLen; j++){
+                KeyCopy[j] = rotateRight(KeyCopy[j], 1);
+            }
+        }
+    }
+    delete[] KeyCopy;
 }
 
 int main(int argc, char **argv){
@@ -49,7 +80,7 @@ int main(int argc, char **argv){
         fileLength = str.length();
         indata = new uint8_t[fileLength];
         outdata = new uint8_t[fileLength];
-        memcpy(indata, (void*)(str.c_str()), str.length());
+        memcpy(indata, (void*)(str.c_str()), str.length()-1);
     }
     std::cout << (char*)indata << std::endl;
     encryptString((uint8_t*)argv[4], strlen(argv[4]), indata,
@@ -70,4 +101,6 @@ int main(int argc, char **argv){
     }
 
     // perform clean up
+    delete[] indata;
+    delete[] outdata;
 }
