@@ -34,6 +34,7 @@ void decryptString(uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
 
 int main(int argc, char **argv){
     uint8_t *indata, *outdata;
+    uint64_t fileLength;
     std::ifstream instr(argv[2]);
     if(!instr){
         std::cerr << "Failed to open file: " << argv[2] << std::endl;
@@ -45,12 +46,18 @@ int main(int argc, char **argv){
         instr.seekg(0, std::ios::beg);
         str.assign((std::istreambuf_iterator<char>(instr)),
                     std::istreambuf_iterator<char>());
-        indata = new uint8_t[str.length()];
-        outdata = new uint8_t[str.length()];
+        fileLength = str.length();
+        indata = new uint8_t[fileLength];
+        outdata = new uint8_t[fileLength];
         memcpy(indata, (void*)(str.c_str()), str.length());
     }
     std::cout << (char*)indata << std::endl;
-    
+    encryptString((uint8_t*)argv[4], strlen(argv[4]), indata,
+                  fileLength, outdata, fileLength);
+    std::cout << (char*)outdata << std::endl;
+    decryptString((uint8_t*)argv[4], strlen(argv[4]), outdata,
+                  fileLength, indata, fileLength);
+    std::cout << (char*)indata << std::endl;
     // Encrypt or decrypt
     if(argv[1][0] == 'e'){
         // Encrypt the given file
