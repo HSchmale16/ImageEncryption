@@ -11,4 +11,4 @@ all:
 # Get rid of object files and built executable
 clean:
 	rm $(EXE)
-	rm -r *.o
+	if [ -e *.o ] ; then rm -r *.o ; fi
