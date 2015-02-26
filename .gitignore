@@ -1,3 +1,6 @@
 # Build Files
 *.out
 *.o
+
+# The Executable
+ImgCrypt

@@ -14,6 +14,7 @@
 #include <fstream>
 #include <cstdlib>
 #include <cstring>
+#include <string>
 
 void encryptString(uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
                    uint64_t inlen, uint8_t *outstr, uint64_t outlen){
@@ -32,13 +33,24 @@ void decryptString(uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
 }
 
 int main(int argc, char **argv){
-    char *indata, outdata;
+    uint8_t *indata, *outdata;
     std::ifstream instr(argv[2]);
     if(!instr){
         std::cerr << "Failed to open file: " << argv[2] << std::endl;
         exit(1);
+    }else{
+        std::string str;
+        instr.seekg(0, std::ios::end);
+        str.reserve(instr.tellg());
+        instr.seekg(0, std::ios::beg);
+        str.assign((std::istreambuf_iterator<char>(instr)),
+                    std::istreambuf_iterator<char>());
+        indata = new uint8_t[str.length()];
+        outdata = new uint8_t[str.length()];
+        memcpy(indata, (void*)(str.c_str()), str.length());
     }
-
+    std::cout << (char*)indata << std::endl;
+    
     // Encrypt or decrypt
     if(argv[1][0] == 'e'){
         // Encrypt the given file
@@ -46,7 +58,9 @@ int main(int argc, char **argv){
         // decrypt the given file
     }else{
         // invalid arg
-        std::cerr << "Invalid arguement as to wether to encrypt or "
-                  << "decrypt" << std::endl;
+        std::cerr << "Invalid arguement as to whether to encrypt or "
+                  << "decrypt the given file" << std::endl;
     }
+
+    // perform clean up
 }
