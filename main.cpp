@@ -69,7 +69,7 @@ void writeOutToImage(const char * fname, uint8_t *data,
 }
 
 int main(int argc, char **argv){
-    uint8_t *indata, *outdata;
+    uint8_t *indata = 0, *outdata = 0;
     uint64_t fileLength;
     std::ifstream instr(argv[2]);
 
@@ -100,6 +100,10 @@ int main(int argc, char **argv){
     }
 
     // perform clean up
-    delete[] indata;
-    delete[] outdata;
+    if(indata != NULL){
+        delete[] indata;
+    }
+    if(outdata != NULL){
+        delete[] outdata;
+    }
 }
