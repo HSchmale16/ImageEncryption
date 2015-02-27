@@ -85,7 +85,34 @@ void writeOutToImage(const char * fname, uint8_t *data,
     img.save_bmp(fname);
 }
 
+/** \brief Reads in data from image. 
+ * \return number of chars written.
+ */
+uint64_t readInFromImage(const char *fname, uint8_t* readInStr,
+                         uint64_t maxStrSz){
+    using namespace cimg_library;
+    uint64_t i = 0;
+    CImg<uint8_t> img(fname);
+    for(uint32_t x = 0; x < img.width(); i++){
+        for(uint32_t y = 0; y < img.height(); y++){
+            for(uint8_t c = 0; c < img.spectrum(); c++){
+                if(i < maxStrSz){
+                    readInStr[i] = img(x, y, 0, c);
+                }
+                i++;
+            }
+        }
+    }
+    return i;
+}
+
+// Program Entry Point
 int main(int argc, char **argv){
+    if(argc < 4){
+        std::cerr << "Too few args passed to program" << std::endl;
+        exit(0);
+    }
+    
     uint8_t *indata = 0, *outdata = 0;
     uint64_t fileLength;
     std::ifstream instr(argv[2]);
@@ -95,7 +122,7 @@ int main(int argc, char **argv){
         // Encrypt the given file
         if(!instr){
             std::cerr << "Failed to open file: " << argv[2] << std::endl;
-            exit(1);
+            exit(0);
         }else{
             std::string str;
             instr.seekg(0, std::ios::end);
