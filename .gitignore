@@ -4,3 +4,8 @@
 
 # The Executable
 ImgCrypt
+
+# Generated Data
+*.bmp
+*.jpg
+*.png

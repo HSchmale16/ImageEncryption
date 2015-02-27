@@ -68,7 +68,7 @@ void decryptString(const uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
 void writeOutToImage(const char * fname, uint8_t *data,
                      uint64_t lenData){
     using namespace cimg_library;
-    uint64_t sideLen = sqrt(lenData)  + 1;
+    uint64_t sideLen = sqrt(lenData / 3 + 1)  + 1;
     CImg<uint8_t> img(sideLen, sideLen, 1, 3);
     img.fill(0);
     uint64_t i = 0;
