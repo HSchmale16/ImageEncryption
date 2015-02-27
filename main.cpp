@@ -9,13 +9,15 @@
  */
 
 #include <cstdint>
-#include <iostream>
 #include <cassert>
-#include <fstream>
 #include <cstdlib>
 #include <cstring>
 #include <climits>
+#include <cmath>
+#include <iostream>
 #include <string>
+#include <fstream>
+#include <CImg.h>
 
 /** \brief rotates a variables bits right n pos then returns that
  * \note n is 8 bits only because no standard type in C has more than
@@ -65,7 +67,22 @@ void decryptString(const uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
 
 void writeOutToImage(const char * fname, uint8_t *data,
                      uint64_t lenData){
-
+    using namespace cimg_library;
+    uint64_t sideLen = sqrt(lenData)  + 1;
+    CImg<uint8_t> img(sideLen, sideLen, 1, 3);
+    img.fill(0);
+    uint64_t i = 0;
+    for(uint32_t x = 0; x < sideLen; x++){
+        for(uint32_t y = 0; y < sideLen; y++){
+            for(uint8_t c = 0; c < 3; c++){
+                if(i < lenData){
+                    img(x, y, 0, c) = data[i];
+                }
+                i++;
+            }
+        }
+    }
+    img.save_bmp(fname);
 }
 
 int main(int argc, char **argv){
@@ -91,6 +108,9 @@ int main(int argc, char **argv){
             outdata = new uint8_t[fileLength];
             memcpy(indata, (void*)(str.c_str()), str.length()-1);
         }
+        encryptString((uint8_t*)argv[4], strlen(argv[4]), indata,
+                      fileLength, outdata, fileLength);
+        writeOutToImage(argv[3], outdata, fileLength);
     }else if(argv[1][0] == 'd'){
         // decrypt the given file
     }else{
