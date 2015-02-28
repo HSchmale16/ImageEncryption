@@ -98,18 +98,16 @@ uint64_t readInFromImage(const char *fname, uint8_t* readInStr){
     assert(readInStr == NULL);
     uint64_t i = 0;
     CImg<uint8_t> img(fname);
-    if(!img){
-        std::cerr << "Something went wrong when loading img file"
-                  << std::endl;
-        exit(0);
-    }
     uint64_t SZ = img.width() * img.height() * img.spectrum();
+    std::cerr << SZ << std::endl;
     readInStr = new uint8_t[SZ];
-    for(uint32_t x = 0; x < img.width(); i++){
-        for(uint32_t y = 0; y < img.height(); y++){
+    for(int32_t x = 0; x < img.width(); i++){
+        for(int32_t y = 0; y < img.height(); y++){
             for(uint8_t c = 0; c < img.spectrum(); c++){
                 if(i < SZ){
                     readInStr[i] = img(x, y, 0, c);
+                }else{
+                    return i;
                 }
                 i++;
             }
