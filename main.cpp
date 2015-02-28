@@ -38,6 +38,9 @@ TYP rotateLeft(TYP x, uint8_t n){
 void encryptString(const uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
                    uint64_t inlen, uint8_t *outstr, uint64_t outlen){
     assert(inlen <= outlen);
+    assert(KEY != NULL);
+    assert(instr != NULL);
+    assert(outstr != NULL);
     uint8_t *KeyCopy = new uint8_t[keyLen];
     memcpy(KeyCopy, KEY, keyLen);
     for(uint64_t i = 0; i < inlen; i++){
@@ -49,11 +52,15 @@ void encryptString(const uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
         }
     }
     delete[] KeyCopy;
+    std::cerr << "Finished Encrypting String" << std::endl;
 }
 
 void decryptString(const uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
                    uint64_t inlen, uint8_t *outstr, uint64_t outlen){
     assert(inlen <= outlen);
+    assert(KEY != NULL);
+    assert(instr != NULL);
+    assert(outstr != NULL);
     uint8_t *KeyCopy = new uint8_t[keyLen];
     memcpy(KeyCopy, KEY, keyLen);
     for(uint64_t i = 0; i < inlen; i++){
@@ -65,6 +72,7 @@ void decryptString(const uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
         }
     }
     delete[] KeyCopy;
+    std::cerr << "Finished Decrypting String" << std::endl;
 }
 
 void writeOutToImage(const char * fname, uint8_t *data,
@@ -85,6 +93,7 @@ void writeOutToImage(const char * fname, uint8_t *data,
         }
     }
     img.save_bmp(fname);
+    std::cerr << "Finished Writting out image" << std::endl;
 }
 
 /** \brief Reads in data from image. 
@@ -101,7 +110,7 @@ uint64_t readInFromImage(const char *fname, uint8_t* readInStr){
     assert(fname != NULL);       // This must be a valid image file
     uint64_t i = 0;
     CImg<uint8_t> img(fname);
-    uint64_t SZ = img.width() * img.height() * img.spectrum();
+    uint64_t SZ = img.width() * img.height() * img.depth() * img.spectrum();
     //std::cerr << SZ << std::endl;
     readInStr = new uint8_t[SZ];
     for(int32_t x = 0; x < img.width(); i++){
@@ -110,6 +119,8 @@ uint64_t readInFromImage(const char *fname, uint8_t* readInStr){
                 if(i < SZ){
                     readInStr[i] = img(x, y, 0, c);
                 }else{
+                    std::cerr << "Finished Reading in an image"
+                              << std::endl;
                     return SZ;
                 }
                 i++;
@@ -127,12 +138,12 @@ int main(int argc, char **argv){
     }
     
     uint8_t *indata = 0, *outdata = 0;
-    uint64_t fileLength;
-    std::ifstream instr;
+    uint64_t fileLength = 0;
     
     // Do I Encrypt or Decrypt?
     if(argv[1][0] == 'e'){
         // Encrypt the given file
+        std::ifstream instr;
         instr.open(argv[2]);
         if(!instr){
             std::cerr << "Failed to open file: " << argv[2] << std::endl;
@@ -156,9 +167,10 @@ int main(int argc, char **argv){
         // decrypt the given file
         fileLength = readInFromImage(argv[2], indata);
         outdata = new uint8_t[fileLength];
-        decryptString((uint8_t*)argv[4], strlen(argv[4]), indata,
+        encryptString((uint8_t*)argv[4], strlen(argv[4]), indata,
                       fileLength, outdata, fileLength);
-        std::ofstream outfile(argv[3], std::ios::binary);
+        std::ofstream outfile;
+        outfile.open(argv[3], std::ios::binary);
         outfile << outdata;
         outfile.close();
     }else{

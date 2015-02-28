@@ -5,9 +5,7 @@
 CXX=g++
 CXX_FLAGS= \
 	-Wall \
-	-std=c++11 \
-	-O2 \
-	-s	
+	-std=c++11
 LD_FLAGS= \
 	-lm \
 	-lpthread \
