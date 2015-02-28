@@ -17,6 +17,8 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <iomanip>
+#include <ios>
 #include <CImg.h>
 
 /** \brief rotates a variables bits right n pos then returns that
@@ -95,7 +97,8 @@ void writeOutToImage(const char * fname, uint8_t *data,
  */
 uint64_t readInFromImage(const char *fname, uint8_t* readInStr){
     using namespace cimg_library;
-    assert(readInStr == NULL);
+    assert(readInStr == NULL);   // This should be null
+    assert(fname != NULL);       // This must be a valid image file
     uint64_t i = 0;
     CImg<uint8_t> img(fname);
     uint64_t SZ = img.width() * img.height() * img.spectrum();
@@ -153,6 +156,12 @@ int main(int argc, char **argv){
         // decrypt the given file
         fileLength = readInFromImage(argv[2], indata);
         outdata = new uint8_t[fileLength];
+        decryptString((uint8_t*)argv[4], strlen(argv[4]), indata,
+                      fileLength, outdata, fileLength);
+        std::ofstream outfile(argv[3],
+                              std::ios::binary | std::ios::out);
+        outfile << outdata;
+        outfile.close();
     }else{
         // invalid args
         std::cerr << "Invalid arguement as to whether to encrypt or "
