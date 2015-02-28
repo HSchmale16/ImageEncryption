@@ -88,7 +88,7 @@ void writeOutToImage(const char * fname, uint8_t *data,
 }
 
 /** \brief Reads in data from image. 
- * \return number of chars written.
+ * \return The total ammount of memory allocated in
  * \param fname the name of the file read in.
  * \param readInStr - The pointer to readin to at. This ptr is allocated
  * in thins function so it should be a NULL ptr.
@@ -102,7 +102,7 @@ uint64_t readInFromImage(const char *fname, uint8_t* readInStr){
     uint64_t i = 0;
     CImg<uint8_t> img(fname);
     uint64_t SZ = img.width() * img.height() * img.spectrum();
-    std::cerr << SZ << std::endl;
+    //std::cerr << SZ << std::endl;
     readInStr = new uint8_t[SZ];
     for(int32_t x = 0; x < img.width(); i++){
         for(int32_t y = 0; y < img.height(); y++){
@@ -110,7 +110,7 @@ uint64_t readInFromImage(const char *fname, uint8_t* readInStr){
                 if(i < SZ){
                     readInStr[i] = img(x, y, 0, c);
                 }else{
-                    return i;
+                    return SZ;
                 }
                 i++;
             }
@@ -158,8 +158,7 @@ int main(int argc, char **argv){
         outdata = new uint8_t[fileLength];
         decryptString((uint8_t*)argv[4], strlen(argv[4]), indata,
                       fileLength, outdata, fileLength);
-        std::ofstream outfile(argv[3],
-                              std::ios::binary | std::ios::out);
+        std::ofstream outfile(argv[3], std::ios::binary);
         outfile << outdata;
         outfile.close();
     }else{
