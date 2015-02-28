@@ -17,4 +17,4 @@ $EXE e $ORIGNAL $IMG_OUT $KEY
 # decryption test
 $EXE d $IMG_OUT $TEXT_OUT $KEY
 
-diff $ORIGNAL $TEXT_OUT
+diff -q $ORIGNAL $TEXT_OUT

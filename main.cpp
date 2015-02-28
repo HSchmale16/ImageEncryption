@@ -104,20 +104,22 @@ void writeOutToImage(const char * fname, uint8_t *data,
  * \note The parameter `readInStr` should be a null pointer, as this
  * will allocate the memory for it to use.
  */
-uint64_t readInFromImage(const char *fname, uint8_t* readInStr){
+uint64_t readInFromImage(const char *fname, uint8_t **readInStr){
     using namespace cimg_library;
-    assert(readInStr == NULL);   // This should be null
+    assert(*readInStr == NULL);   // This should be null
     assert(fname != NULL);       // This must be a valid image file
     uint64_t i = 0;
     CImg<uint8_t> img(fname);
     uint64_t SZ = img.width() * img.height() * img.depth() * img.spectrum();
-    //std::cerr << SZ << std::endl;
-    readInStr = new uint8_t[SZ];
+    std::cerr << "SZ = " << SZ << std::endl;
+    *readInStr = new uint8_t[SZ];
+    assert(*readInStr != NULL);
     for(int32_t x = 0; x < img.width(); i++){
         for(int32_t y = 0; y < img.height(); y++){
             for(uint8_t c = 0; c < img.spectrum(); c++){
                 if(i < SZ){
-                    readInStr[i] = img(x, y, 0, c);
+                    (*readInStr)[i] = img(x, y, 0, c);
+                    std::cout << (*readInStr)[i] << " ";
                 }else{
                     std::cerr << "Finished Reading in an image"
                               << std::endl;
@@ -137,7 +139,8 @@ int main(int argc, char **argv){
         exit(0);
     }
     
-    uint8_t *indata = NULL, *outdata = NULL;
+    uint8_t *indata = NULL,
+            *outdata = NULL;
     uint64_t fileLength = 0;
     
     // Do I Encrypt or Decrypt?
@@ -165,15 +168,15 @@ int main(int argc, char **argv){
         instr.close();
     }else if(argv[1][0] == 'd'){
         // decrypt the given file
-        std::cerr << indata << "  ";
-        fileLength = readInFromImage(argv[2], indata);
-        std::cerr << indata;
+        fileLength = readInFromImage(argv[2], &indata);
         outdata = new uint8_t[fileLength];
+        assert(indata != NULL);
+        assert(outdata != NULL);
         decryptString((uint8_t*)argv[4], strlen(argv[4]), indata,
                       fileLength, outdata, fileLength);
         std::ofstream outfile;
         outfile.open(argv[3], std::ios::binary);
-        outfile << outdata;
+        outfile << outdata << std::endl;
         outfile.close();
     }else{
         // invalid args
