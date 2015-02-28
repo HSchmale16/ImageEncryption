@@ -137,7 +137,7 @@ int main(int argc, char **argv){
         exit(0);
     }
     
-    uint8_t *indata = 0, *outdata = 0;
+    uint8_t *indata = NULL, *outdata = NULL;
     uint64_t fileLength = 0;
     
     // Do I Encrypt or Decrypt?
@@ -165,9 +165,11 @@ int main(int argc, char **argv){
         instr.close();
     }else if(argv[1][0] == 'd'){
         // decrypt the given file
+        std::cerr << indata << "  ";
         fileLength = readInFromImage(argv[2], indata);
+        std::cerr << indata;
         outdata = new uint8_t[fileLength];
-        encryptString((uint8_t*)argv[4], strlen(argv[4]), indata,
+        decryptString((uint8_t*)argv[4], strlen(argv[4]), indata,
                       fileLength, outdata, fileLength);
         std::ofstream outfile;
         outfile.open(argv[3], std::ios::binary);
