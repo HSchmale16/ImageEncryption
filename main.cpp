@@ -87,16 +87,28 @@ void writeOutToImage(const char * fname, uint8_t *data,
 
 /** \brief Reads in data from image. 
  * \return number of chars written.
+ * \param fname the name of the file read in.
+ * \param readInStr - The pointer to readin to at. This ptr is allocated
+ * in thins function so it should be a NULL ptr.
+ * \note The parameter `readInStr` should be a null pointer, as this
+ * will allocate the memory for it to use.
  */
-uint64_t readInFromImage(const char *fname, uint8_t* readInStr,
-                         uint64_t maxStrSz){
+uint64_t readInFromImage(const char *fname, uint8_t* readInStr){
     using namespace cimg_library;
+    assert(readInStr == NULL);
     uint64_t i = 0;
     CImg<uint8_t> img(fname);
+    if(!img){
+        std::cerr << "Something went wrong when loading img file"
+                  << std::endl;
+        exit(0);
+    }
+    uint64_t SZ = img.width() * img.height() * img.spectrum();
+    readInStr = new uint8_t[SZ];
     for(uint32_t x = 0; x < img.width(); i++){
         for(uint32_t y = 0; y < img.height(); y++){
             for(uint8_t c = 0; c < img.spectrum(); c++){
-                if(i < maxStrSz){
+                if(i < SZ){
                     readInStr[i] = img(x, y, 0, c);
                 }
                 i++;
@@ -115,33 +127,36 @@ int main(int argc, char **argv){
     
     uint8_t *indata = 0, *outdata = 0;
     uint64_t fileLength;
-    std::ifstream instr(argv[2]);
-
+    std::ifstream instr;
+    
     // Do I Encrypt or Decrypt?
     if(argv[1][0] == 'e'){
         // Encrypt the given file
+        instr.open(argv[2]);
         if(!instr){
             std::cerr << "Failed to open file: " << argv[2] << std::endl;
             exit(0);
-        }else{
-            std::string str;
-            instr.seekg(0, std::ios::end);
-            str.reserve(instr.tellg());
-            instr.seekg(0, std::ios::beg);
-            str.assign((std::istreambuf_iterator<char>(instr)),
-                        std::istreambuf_iterator<char>());
-            fileLength = str.length();
-            indata = new uint8_t[fileLength];
-            outdata = new uint8_t[fileLength];
-            memcpy(indata, (void*)(str.c_str()), str.length()-1);
         }
+        std::string str;
+        instr.seekg(0, std::ios::end);
+        str.reserve(instr.tellg());
+        instr.seekg(0, std::ios::beg);
+        str.assign((std::istreambuf_iterator<char>(instr)),
+                    std::istreambuf_iterator<char>());
+        fileLength = str.length();
+        indata = new uint8_t[fileLength];
+        outdata = new uint8_t[fileLength];
+        memcpy(indata, (void*)(str.c_str()), str.length()-1);
         encryptString((uint8_t*)argv[4], strlen(argv[4]), indata,
                       fileLength, outdata, fileLength);
         writeOutToImage(argv[3], outdata, fileLength);
+        instr.close();
     }else if(argv[1][0] == 'd'){
         // decrypt the given file
+        fileLength = readInFromImage(argv[2], indata);
+        outdata = new uint8_t[fileLength];
     }else{
-        // invalid arg
+        // invalid args
         std::cerr << "Invalid arguement as to whether to encrypt or "
                   << "decrypt the given file" << std::endl;
     }
