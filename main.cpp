@@ -52,7 +52,7 @@ void encryptString(const uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
         }
     }
     delete[] KeyCopy;
-    std::cerr << "Finished Encrypting String" << std::endl;
+    //std::cerr << "Finished Encrypting String" << std::endl;
 }
 
 void decryptString(const uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
@@ -72,7 +72,7 @@ void decryptString(const uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
         }
     }
     delete[] KeyCopy;
-    std::cerr << "Finished Decrypting String" << std::endl;
+    //std::cerr << "Finished Decrypting String" << std::endl;
 }
 
 void writeOutToImage(const char * fname, uint8_t *data,
@@ -93,7 +93,7 @@ void writeOutToImage(const char * fname, uint8_t *data,
         }
     }
     img.save_bmp(fname);
-    std::cerr << "Finished Writting out image" << std::endl;
+    //std::cerr << "Finished Writting out image" << std::endl;
 }
 
 /** \brief Reads in data from image. 
