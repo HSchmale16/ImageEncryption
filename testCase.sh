@@ -18,22 +18,25 @@ TEXT_OUT="$IMG_OUT.txt"
 # Pass or Fail Colorize Vars
 PASS='\033[0;32m'
 FAIL='\033[0;31m'
+BLUE='\033[0;34m'
 NC='\033[0m'
 
+NDEV=/dev/null  # Null Device
+
 echo "ImgCrypt Test Cases"
-echo "Test Data: $ORIGNAL"
-echo "Test Key:  $KEY"
+echo -e "Test Data: ${BLUE}$ORIGNAL${NC}"
+echo -e "Test Key:  ${BLUE}$KEY${NC}"
 
 # Build The Program
-make
+make >$NDEV
 
 # encryption test
 echo "Encrypting Some data"
-$EXE e $ORIGNAL $IMG_OUT $KEY
+$EXE e $ORIGNAL $IMG_OUT $KEY >$NDEV
 
 # decryption test
 echo "Decrypting some data"
-$EXE d $IMG_OUT $TEXT_OUT $KEY
+$EXE d $IMG_OUT $TEXT_OUT $KEY >$NDEV
 
 # Data Intergretity Test
 echo "Now Performing Data Intergretity Test"
