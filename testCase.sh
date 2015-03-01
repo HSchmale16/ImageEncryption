@@ -42,7 +42,7 @@ $EXE d $IMG_OUT $TEXT_OUT $KEY >$NDEV
 echo "Now Performing Data Intergretity Test"
 cmp -s filename_1 filename_2 > /dev/null
 if [ $? -eq 1 ]; then
-    echo -e "${FAIL}FAIL${NC}"
-else
     echo -e "${PASS}PASS${NC}"
+else
+    echo -e "${FAIL}FAIL${NC}"
 fi
