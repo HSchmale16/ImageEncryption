@@ -1,19 +1,30 @@
 #!/bin/bash
 # @author Henry J Schmale
 # @date February 28, 2015
-# Test Case for Image Encrypter
+# Test Script for Image Encrypter Program by me
+# 
+# If the first arg following this script is `CleanUp` then
+# only the cleanup function is ran and the script exits
 
 # TEST VARS
-KEY="QWERTY7991"    # Key to use for encryption
-ORIGNAL="main.cpp"  # file to use as test data
+KEY="QWERTY7991"           # Key to use for encryption
+ORIGNAL="main.cpp"         # file to use as test data
 
 # -------------------------------------
 # Begin Primary Script
+# -------------------------------------
+# Clean up, this should only happen on pass
+function CleanUp {
+    if [ -e *.o ] ; then rm *.o ; fi
+    if [ -e $IMG_OUT ] ; then rm $IMG_OUT ; fi
+    if [ -e $TEXT_OUT ] ; then rm $TEXT_OUT ; fi
+    if [ -e $EXE ] ; then rm $EXE ; fi
+}
 
 # File Vars
-EXE=./ImgCrypt
-IMG_OUT="$ORIGNAL.bmp"
-TEXT_OUT="$IMG_OUT.txt"
+EXE=./ImgCrypt             # The executable
+IMG_OUT="$ORIGNAL.bmp"     # First output
+TEXT_OUT="$IMG_OUT.txt"    # Final output
 
 # Pass or Fail Colorize Vars
 PASS='\033[0;32m'
@@ -21,7 +32,14 @@ FAIL='\033[0;31m'
 BLUE='\033[0;34m'
 NC='\033[0m'
 
-NDEV=/dev/null  # Null Device
+NDEV=/dev/null             # Null Device
+
+# Test for args
+if [ $1 = "CleanUp" ] ; then
+    echo "Clean Up Arg Detected, Running Clean Up"
+    CleanUp
+    exit 0
+fi
 
 echo "ImgCrypt Test Cases"
 echo -e "Test Data: ${BLUE}$ORIGNAL${NC}"
@@ -60,9 +78,11 @@ fi
 # -------------------------------------
 # Data Intergretity Test
 echo -n "Now Performing Data Intergretity Test        ["
-cmp -s filename_1 filename_2 > /dev/null
-if [ $? -eq 1 ]; then
+cmp -s $ORIGNAL $TEXT_OUT >/dev/null
+if [ $? -eq 0 ]; then
     echo -e "${PASS}PASS${NC}]"
+    echo "Running Clean up, as there is a bunch of junk files now"
+    CleanUp
 else
     echo -e "${FAIL}FAIL${NC}]"
 fi
