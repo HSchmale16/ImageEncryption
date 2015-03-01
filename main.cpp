@@ -21,8 +21,6 @@
 #include <ios>
 #include <CImg.h>
 
-const uint64_t RAND_SEED = 10;
-
 /** \brief rotates a variables bits right n pos then returns that
  * \note n is 8 bits only because no standard type in C has more than
  * 64 bits, 8 bits is more than sufficent for this purpose.
@@ -86,7 +84,6 @@ void writeOutToImage(const char * fname, uint8_t *data,
     CImg<uint8_t> img(sideLen, sideLen, 1, 3);
     img.fill(0);
     uint64_t i = 0;
-    srand(RAND_SEED);
     for(int32_t x = 0; x < sideLen; x++){
         for(int32_t y = 0; y < sideLen; y++){
             for(int8_t c = 0; c < 3; c++){
