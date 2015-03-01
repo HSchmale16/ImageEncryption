@@ -15,12 +15,10 @@ ORIGNAL="main.cpp"         # file to use as test data
 # -------------------------------------
 # Clean up, this should only happen on pass
 function CleanUp {
-    if [ -e *.o ] ; then rm *.o ; fi
+    make clean
     if [ -e $IMG_OUT ] ; then rm $IMG_OUT ; fi
     if [ -e $TEXT_OUT ] ; then rm $TEXT_OUT ; fi
-    if [ -e $EXE ] ; then rm $EXE ; fi
 }
-
 # File Vars
 EXE=./ImgCrypt             # The executable
 IMG_OUT="$ORIGNAL.bmp"     # First output
