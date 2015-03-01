@@ -21,31 +21,7 @@
 #include <ios>
 #include <CImg.h>
 
-struct ImgDims{
-    int32_t m_width;
-    int32_t m_height;
-
-    ImgDims(){
-        m_width = 0;
-        m_height = 0;
-    }
-};
-
-/** \brief Calculates the best dimensions for an image with a given number
- * of byte values. 
- * \param length Total Number of bytes to write
- * \param cc Color Channels of final image
- */
-ImgDims findBestImgDim(uint64_t length, uint8_t cc = 3){
-    assert(cc > 0);
-    assert(length > 0);
-    ImgDims dims;
-    uint64_t pixels = length / cc;
-    dims.m_width = ceil(sqrt(pixels));
-    dims.m_height = dims.m_width;
-    
-    return dims;
-}
+const uint64_t RAND_SEED = 10;
 
 /** \brief rotates a variables bits right n pos then returns that
  * \note n is 8 bits only because no standard type in C has more than
@@ -110,13 +86,16 @@ void writeOutToImage(const char * fname, uint8_t *data,
     CImg<uint8_t> img(sideLen, sideLen, 1, 3);
     img.fill(0);
     uint64_t i = 0;
+    srand(RAND_SEED);
     for(int32_t x = 0; x < sideLen; x++){
         for(int32_t y = 0; y < sideLen; y++){
             for(int8_t c = 0; c < 3; c++){
                 if(i < lenData){
                     img(x, y, 0, c) = data[i];
+                    i++;
+                }else{
+                    img(x, y, 0, c) = rand() % 255;
                 }
-                i++;
             }
         }
     }
@@ -137,7 +116,14 @@ uint64_t readInFromImage(const char *fname, uint8_t **readInStr){
     assert(*readInStr == NULL);   // This should be null
     assert(fname != NULL);       // This must be a valid image file
     CImg<uint8_t> img(fname);
-    uint64_t SZ = img.width() * img.height() * img.depth() * img.spectrum();
+    uint64_t SZ = img.width() * img.height() * img.spectrum();
+    for(int32_t x = 0; x < img.width(); x++){
+        for(int32_t y = 0; y < img.height(); y++){
+            for(int8_t c = 0; c < img.spectrum(); c++){
+            
+            }
+        }
+    }
     *readInStr = new uint8_t[SZ];
     uint64_t i = 0;
     for(int32_t x = 0; x < img.width(); x++){

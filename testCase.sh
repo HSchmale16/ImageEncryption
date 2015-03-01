@@ -43,6 +43,7 @@ if [ -n $1 ] ; then
     fi
 fi
 
+CleanUp
 echo "ImgCrypt Test Cases"
 echo -e "Test Data: ${BLUE}$ORIGNAL${NC}"
 echo -e "Test Key:  ${BLUE}$KEY${NC}"
