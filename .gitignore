@@ -10,3 +10,5 @@ ImgCrypt
 *.jpg
 *.png
 
+# Generated From Test Cases
+*.bmp.*

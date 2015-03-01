@@ -35,11 +35,6 @@ TYP rotateLeft(TYP x, uint8_t n){
     return (x << n) | (x >> ((sizeof(x) * CHAR_BIT) - n));
 }
 
-struct PerfectImgDims{
-    int32_t width;
-    int32_t height;
-};
-
 void encryptString(const uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
                    uint64_t inlen, uint8_t *outstr, uint64_t outlen){
     assert(inlen <= outlen);
@@ -83,7 +78,7 @@ void decryptString(const uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
 void writeOutToImage(const char * fname, uint8_t *data,
                      uint64_t lenData){
     using namespace cimg_library;
-    int64_t sideLen = sqrt(lenData / 3 + 1); 
+    int64_t sideLen = sqrt(lenData / 3 + 1) + 1;
     CImg<uint8_t> img(sideLen, sideLen, 1, 3);
     img.fill(0);
     uint64_t i = 0;
@@ -122,12 +117,12 @@ uint64_t readInFromImage(const char *fname, uint8_t **readInStr){
             for(int8_t c = 0; c < img.spectrum(); c++){
                 if(i < SZ){
                     (*readInStr)[i] = img(x, y, 0, c);
+                    i++;
                 }
-                i++;
             }
         }
     }
-    return SZ;
+    return i;
 }
 
 // Program Entry Point
