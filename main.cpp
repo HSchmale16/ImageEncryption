@@ -22,9 +22,8 @@
 #include <CImg.h>
 
 struct ImgDims{
-    uint32_t m_width;   //!< width of image
-    uint32_t m_height;  //!< height of image
-    uint32_t m_cc;
+    int32_t m_width;
+    int32_t m_height;
 
     ImgDims(){
         m_width = 0;
@@ -44,18 +43,7 @@ ImgDims findBestImgDim(uint64_t length, uint8_t cc = 3){
     uint64_t pixels = length / cc;
     dims.m_width = ceil(sqrt(pixels));
     dims.m_height = dims.m_width;
-    while((dims.m_width * dims.m_height) != pixels){
-        if((dims.m_width * dims.m_height) > pixels){
-            dims.m_width++;
-            dims.m_height--;
-            continue;
-        }
-        if((dims.m_width * dims.m_height) > pixels){
-            dims.m_height++;
-            dims.m_width--;
-            continue;
-        }
-    }
+    
     return dims;
 }
 
@@ -118,12 +106,12 @@ void decryptString(const uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
 void writeOutToImage(const char * fname, uint8_t *data,
                      uint64_t lenData){
     using namespace cimg_library;
-    ImgDims d = findBestImgDim(lenData);
-    CImg<uint8_t> img(d.m_width, d.m_height, 1, 3);
+    int64_t sideLen = sqrt(lenData / 3 + 1) + 1;
+    CImg<uint8_t> img(sideLen, sideLen, 1, 3);
     img.fill(0);
     uint64_t i = 0;
-    for(int32_t x = 0; x < d.m_width; x++){
-        for(int32_t y = 0; y < d.m_height; y++){
+    for(int32_t x = 0; x < sideLen; x++){
+        for(int32_t y = 0; y < sideLen; y++){
             for(int8_t c = 0; c < 3; c++){
                 if(i < lenData){
                     img(x, y, 0, c) = data[i];
