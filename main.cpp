@@ -21,6 +21,32 @@
 #include <ios>
 #include <CImg.h>
 
+struct ImgDims{
+    int32_t m_width;
+    int32_t m_height;
+
+    ImgDims(){
+        m_width = 0;
+        m_height = 0;
+    }
+};
+
+/** \brief Calculates the best dimensions for an image with a given number
+ * of byte values. 
+ * \param length Total Number of bytes to write
+ * \param cc Color Channels of final image
+ */
+ImgDims findBestImgDim(uint64_t length, uint8_t cc = 3){
+    assert(cc > 0);
+    assert(length > 0);
+    ImgDims dims;
+    uint64_t pixels = length / cc;
+    dims.m_width = ceil(sqrt(pixels));
+    dims.m_height = dims.m_width;
+    
+    return dims;
+}
+
 /** \brief rotates a variables bits right n pos then returns that
  * \note n is 8 bits only because no standard type in C has more than
  * 64 bits, 8 bits is more than sufficent for this purpose.
@@ -45,6 +71,7 @@ void encryptString(const uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
     memcpy(KeyCopy, KEY, keyLen);
     for(uint64_t i = 0; i < inlen; i++){
         outstr[i] = instr[i] ^ KeyCopy[i % keyLen];
+        outstr[i] = rotateRight(outstr[i], 1);
         if((i % keyLen) == 0){
             for(int j = 0; j < keyLen; j++){
                 KeyCopy[j] = rotateRight(KeyCopy[j], 1);
@@ -64,7 +91,8 @@ void decryptString(const uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
     uint8_t *KeyCopy = new uint8_t[keyLen];
     memcpy(KeyCopy, KEY, keyLen);
     for(uint64_t i = 0; i < inlen; i++){
-        outstr[i] = instr[i] ^ KeyCopy[i % keyLen];
+        outstr[i] = rotateLeft(instr[i], 1);
+        outstr[i] = outstr[i] ^ KeyCopy[i % keyLen];
         if((i % keyLen) == 0){
             for(int j = 0; j < keyLen; j++){
                 KeyCopy[j] = rotateRight(KeyCopy[j], 1);

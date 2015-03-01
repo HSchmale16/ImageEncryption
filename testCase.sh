@@ -35,10 +35,12 @@ NC='\033[0m'
 NDEV=/dev/null             # Null Device
 
 # Test for args
-if [ $1 = "CleanUp" ] ; then
-    echo "Clean Up Arg Detected, Running Clean Up"
-    CleanUp
-    exit 0
+if [ -n $1 ] ; then
+    if [ $1 = "CleanUp" ] ; then
+        echo "Clean Up Arg Detected, Running Clean Up"
+        CleanUp
+        exit 0
+    fi
 fi
 
 echo "ImgCrypt Test Cases"
