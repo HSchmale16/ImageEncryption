@@ -35,6 +35,11 @@ TYP rotateLeft(TYP x, uint8_t n){
     return (x << n) | (x >> ((sizeof(x) * CHAR_BIT) - n));
 }
 
+struct PerfectImgDims{
+    int32_t width;
+    int32_t height;
+};
+
 void encryptString(const uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
                    uint64_t inlen, uint8_t *outstr, uint64_t outlen){
     assert(inlen <= outlen);
@@ -78,13 +83,13 @@ void decryptString(const uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
 void writeOutToImage(const char * fname, uint8_t *data,
                      uint64_t lenData){
     using namespace cimg_library;
-    uint64_t sideLen = sqrt(lenData / 3 + 1)  + 1;
+    int64_t sideLen = sqrt(lenData / 3 + 1); 
     CImg<uint8_t> img(sideLen, sideLen, 1, 3);
     img.fill(0);
     uint64_t i = 0;
-    for(uint32_t x = 0; x < sideLen; x++){
-        for(uint32_t y = 0; y < sideLen; y++){
-            for(uint8_t c = 0; c < 3; c++){
+    for(int32_t x = 0; x < sideLen; x++){
+        for(int32_t y = 0; y < sideLen; y++){
+            for(int8_t c = 0; c < 3; c++){
                 if(i < lenData){
                     img(x, y, 0, c) = data[i];
                 }
@@ -100,7 +105,7 @@ void writeOutToImage(const char * fname, uint8_t *data,
  * \return The total ammount of memory allocated in
  * \param fname the name of the file read in.
  * \param readInStr - The pointer to readin to at. This ptr is allocated
- * in thins function so it should be a NULL ptr.
+ * in this function, so the param passed should be a NULL ptr.
  * \note The parameter `readInStr` should be a null pointer, as this
  * will allocate the memory for it to use.
  */
@@ -108,28 +113,21 @@ uint64_t readInFromImage(const char *fname, uint8_t **readInStr){
     using namespace cimg_library;
     assert(*readInStr == NULL);   // This should be null
     assert(fname != NULL);       // This must be a valid image file
-    uint64_t i = 0;
     CImg<uint8_t> img(fname);
     uint64_t SZ = img.width() * img.height() * img.depth() * img.spectrum();
-    std::cerr << "SZ = " << SZ << std::endl;
     *readInStr = new uint8_t[SZ];
-    assert(*readInStr != NULL);
-    for(int32_t x = 0; x < img.width(); i++){
+    uint64_t i = 0;
+    for(int32_t x = 0; x < img.width(); x++){
         for(int32_t y = 0; y < img.height(); y++){
-            for(uint8_t c = 0; c < img.spectrum(); c++){
+            for(int8_t c = 0; c < img.spectrum(); c++){
                 if(i < SZ){
                     (*readInStr)[i] = img(x, y, 0, c);
-                    std::cout << (*readInStr)[i] << " ";
-                }else{
-                    std::cerr << "Finished Reading in an image"
-                              << std::endl;
-                    return SZ;
                 }
                 i++;
             }
         }
     }
-    return i;
+    return SZ;
 }
 
 // Program Entry Point
@@ -176,7 +174,9 @@ int main(int argc, char **argv){
                       fileLength, outdata, fileLength);
         std::ofstream outfile;
         outfile.open(argv[3], std::ios::binary);
-        outfile << outdata << std::endl;
+        for(uint64_t i = 0; i < fileLength; i++){
+            outfile << outdata[i];
+        }
         outfile.close();
     }else{
         // invalid args
