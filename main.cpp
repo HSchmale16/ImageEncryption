@@ -52,6 +52,10 @@ void encryptString(const uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
             }
         }
     }
+    // Secure Memory
+    for(uint16_t i = 0; i < keyLen; i++){
+        KeyCopy[i] = 0; // overwrite the key copy
+    }
     delete[] KeyCopy;
     //std::cerr << "Finished Encrypting String" << std::endl;
 }
@@ -72,6 +76,10 @@ void decryptString(const uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
                 KeyCopy[j] = rotateRight(KeyCopy[j], 1);
             }
         }
+    }
+    // Secure Memory
+    for(uint16_t i = 0; i < keyLen; i++){
+        KeyCopy[i] = 0; // overwrite the key copy
     }
     delete[] KeyCopy;
     //std::cerr << "Finished Decrypting String" << std::endl;
