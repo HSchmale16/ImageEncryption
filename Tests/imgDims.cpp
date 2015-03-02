@@ -48,7 +48,7 @@ imgDims calcDims(uint64_t area){
     if(uint64_t(sqrt(area) * sqrt(area)) == area){
         dims.m_width = sqrt(area);
         dims.m_height = sqrt(area);
-        goto retData;
+        goto testValues;
     }
 
     // brute force test
@@ -56,7 +56,8 @@ imgDims calcDims(uint64_t area){
         if(area % i == 0){
             workFactors++;
             factor1 = i;
-            if((((area % factor1)/factor1) > .97) && (area % factor1 == 0)){
+            if((((double)(area % factor1)/(double)(factor1)) > .999)
+              && (area % factor1 == 0)){
                 printf("Found a better set\n");
                 break;
             }
@@ -67,14 +68,15 @@ imgDims calcDims(uint64_t area){
             exit(0);
         }
     }
-    dims.m_width = area / factor1;
+    dims.m_width  = area / factor1;
     dims.m_height = factor1;
+    
+testValues:
     // check sum
     if((dims.m_width * dims.m_height) != area){
         printf("The calculated width and height does not multiply to area\n");
         exit(0);
     }
-retData:
     return dims; 
 }
 
