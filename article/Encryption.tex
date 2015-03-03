@@ -33,11 +33,17 @@
   information inside of a photograph.
 
 \section{Encryption and Decryption}
-  The encryption used in this system is a simple XOR rotate cipher.
-  The cipher uses an n-byte key to encrypt the message, and
-  throughtout the encryption of the message the key changes. The
-  changes in the key over the process of encryption can be described
-  by the equation below.
+  The encryption used in this system is a simple XOR rotation cipher.
+  The cipher uses an n-byte key to encrypt and decrypt the message.
+  Along with the use of a rotating key, this a relatively fast and
+  secure algorithim, though probably nowhere near as secure as any of
+  public-private key algorithims. However, this algorithim was not
+  designed with that in mind, this algorithim was designed with the
+  thought of protecting a file against a cursory overview.
+  
+  As this algorithim uses a rotating key to encrypt mesages there
+  must be regular pattern to how the key changes. As such the
+  change to the key is a simple bit rotation after each use. 
   
   % Equation describing the value of K to use in this iteration
   \begin{equation}
@@ -49,7 +55,21 @@
   \end{equation}
 
   The above equation describes how to calculate the key value to use
-  in iteration \( i \) of the encryption algorithim. 
+  in iteration \( i \) of the encryption algorithim. It requires the use
+  of a bitwise rotate operation so that no data is lost, through the
+  replacement by zeros when using standard bitwise shifts. And as zeros
+  were introduced into the key, the xor shift would no longer work as
+  all the bits would remain the same.
+
+  This algorithim can use an n-bit key as the new key value is
+  determined indepently of the length of the key and provides
+  facilities for working with various key lengths. As such it can use
+  a n-bit key for encryption and decryption.
+
+  The encryption algorithim requires the use of the bitwise xor and
+  takes advantage of the speed yielded with an xor opperation, due to
+  no carry bits being required, and dedicated circuitry existing on most
+  modern processors. Below is a description of the algorithim in detail.
 
   
 
