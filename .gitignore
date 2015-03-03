@@ -17,3 +17,6 @@ ImgCrypt
 # logs
 *.log
 *.aux
+
+# Editor Files
+*.swp

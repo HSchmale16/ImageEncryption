@@ -32,13 +32,25 @@
   document describes in detail the processed used to encrypt and hide the
   information inside of a photograph.
 
-\section{Encryption}
+\section{Encryption and Decryption}
   The encryption used in this system is a simple XOR rotate cipher.
   The cipher uses an n-byte key to encrypt the message, and
   throughtout the encryption of the message the key changes. The
   changes in the key over the process of encryption can be described
   by the equation below.
-  \begin{math}
-  \end{math}
+  
+  % Equation describing the value of K to use in this iteration
+  \begin{equation}
+    \label{eq:keyDerive}
+    K_i = rightRotate(
+        \underbrace{K_i \bmod length(K)}_\text{Value to rotate},
+        \underbrace{\frac{i}{length(K)} \bmod (sizeof(type(K)) 
+            \times B)}_\text{places}) 
+  \end{equation}
+
+  The above equation describes how to calculate the key value to use
+  in iteration \( i \) of the encryption algorithim. 
+
+  
 
 \end{document}
