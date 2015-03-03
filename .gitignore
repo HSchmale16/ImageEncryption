@@ -12,3 +12,7 @@ ImgCrypt
 
 # Generated From Test Cases
 *.bmp.*
+
+# logs
+*.log
+*.aux
