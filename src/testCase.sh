@@ -2,9 +2,7 @@
 # @author Henry J Schmale
 # @date February 28, 2015
 # Test Script for Image Encrypter Program by me
-# 
-# If the first arg following this script is `CleanUp` then
-# only the cleanup function is ran and the script exits
+
 
 # TEST VARS
 KEY="QWERTY7991"           # Key to use for encryption
