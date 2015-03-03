@@ -17,4 +17,6 @@ cd $projectDir                         # Return to projectDir
 
 # Article Builder
 cd $articleDir
-$latexEng Encryption.tex
+echo -n -e 'Making Article                          [\033[0;32m'
+$latexEng Encryption.tex > /dev/null   # Silence a noisy command
+echo -e    'Done\033[0m]'

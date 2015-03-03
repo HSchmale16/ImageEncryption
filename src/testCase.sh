@@ -15,7 +15,7 @@ ORIGNAL="main.cpp"         # file to use as test data
 # -------------------------------------
 # Clean up, this should only happen on pass
 function CleanUp {
-    make clean
+    make clean > /dev/null
     if [ -e $IMG_OUT ] ; then rm $IMG_OUT ; fi
     if [ -e $TEXT_OUT ] ; then rm $TEXT_OUT ; fi
 }
@@ -32,15 +32,6 @@ NC='\033[0m'
 
 NDEV=/dev/null             # Null Device
 
-# Test for args
-if [ -n $1 ] ; then
-    if [ $1 = "CleanUp" ] ; then
-        echo "Clean Up Arg Detected, Running Clean Up"
-        CleanUp
-        exit 0
-    fi
-fi
-
 CleanUp
 echo "ImgCrypt Test Cases"
 echo -e "Test Data: ${BLUE}$ORIGNAL${NC}"
@@ -48,7 +39,7 @@ echo -e "Test Key:  ${BLUE}$KEY${NC}"
 
 # -------------------------------------
 # Build The Program
-echo -n "Building Program                             ["
+echo -n "Building Program                        ["
 make >$NDEV
 if [ $? -eq 0 ] ; then
     echo -e "${PASS}PASS${NC}]"
@@ -58,7 +49,7 @@ fi
 
 # -------------------------------------
 # encryption test
-echo -n "Encrypting Some data                         ["
+echo -n "Encrypting Some data                    ["
 $EXE e $ORIGNAL $IMG_OUT $KEY >$NDEV
 if [ -s $IMG_OUT ] ; then
     echo -e "${PASS}PASS${NC}]"
@@ -68,7 +59,7 @@ fi
  
 # -------------------------------------
 # decryption test
-echo -n "Decrypting some data                         ["
+echo -n "Decrypting some data                    ["
 $EXE d $IMG_OUT $TEXT_OUT $KEY >$NDEV
 if [ -s $TEXT_OUT ] ; then
     echo -e "${PASS}PASS${NC}]"
@@ -78,7 +69,7 @@ fi
 
 # -------------------------------------
 # Data Intergretity Test
-echo -n "Now Performing Data Intergretity Test        ["
+echo -n "Now Performing Data Intergretity Test   ["
 cmp -s $ORIGNAL $TEXT_OUT >/dev/null
 if [ $? -eq 0 ]; then
     echo -e "${PASS}PASS${NC}]"
