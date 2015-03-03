@@ -23,6 +23,25 @@
 % Start of the document
 \begin{document}
 
+% TITLE
+\title{Hiding an Encrypted Message Inside an Image using
+      Standard File Formats}
+\author{Henry J Schmale}
+\date{March 2015}
+\maketitle
+
+% abstract
+\begin{abstract}
+  The design and implementation of an algorithim to encrypt a message
+  and hide it inside of a standard image file. This paper describes
+  the implementation of a simple xor rotate cipher, and then gives
+  a description on how to encode the output data inside of an image.
+  Additionally, this paper will include details of extracting the
+  encrypted message from an image, and undoing the enryption on that
+  image.
+\end{abstract}
+
+% MAIN CONTENT
 \section{Introduction}
   Encryption is a powerful tool to protect your information, but standard
   encryption can be insecure if found. Additionally, it can be incriminating
@@ -31,6 +50,9 @@
   a system to encrypt a text document, and hide it inside of an image, this
   document describes in detail the processed used to encrypt and hide the
   information inside of a photograph.
+
+  This paper describes the design and implementation of an algorithim to
+  hide data inside of a standard image file. 
 
 \section{Encryption and Decryption}
   The encryption used in this system is a simple XOR rotation cipher.
@@ -71,6 +93,7 @@
   no carry bits being required, and dedicated circuitry existing on most
   modern processors. Below is a description of the algorithim in detail.
 
-  
+  \subsection{Encrypting a Message}
+    
 
 \end{document}
