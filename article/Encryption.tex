@@ -18,7 +18,11 @@
 % Spacing
 \setlength{\textheight}{9.5in}
 
+% Math Formulas
 \usepackage{mathtools}
+
+% Algorithims Formatting
+\usepackage[]{algpseudocode}
 
 % Start of the document
 \begin{document}
@@ -94,6 +98,56 @@
   modern processors. Below is a description of the algorithim in detail.
 
   \subsection{Encrypting a Message}
+    This section describes the process of encrypting a message.
+    The general process of encrypting a message using an xor rotate
+    cipher is quite simple, but it becomes more complex with the
+    addition of a rotating key. The general process of encryption
+    using an xor rotate cipher is descriped below. 
     
+    \begin{figure}[h]
+    \begin{algorithmic}[1]
+    \For{$i=0; i < length(OriginalMessage); i++$}
+      \State $EncryptedMesage_i =
+             rotateRight(OriginalMessage_i \oplus Key_{i \bmod length(Key)})$
+    \EndFor 
+    \end{algorithmic}
+    \caption{A Basic XOR rotation cipher}
+    \end{figure}
 
+    If there was nothing more than an XOR opperation in this algorithim,
+    it would be incredibly easy to use a brute-force attack against.
+    However, since a bit rotation was added into the algorithim, there
+    are now \(CHAR_BITS^2\) possible solutions to the message, making
+    brute-forcing it, less of an option. However, the key is still
+    vurnable to being brute-forced, so modification of the key is also
+    required. Yielding, something more like the following.
+    
+    \begin{figure}[h]
+    \begin{algorithmic}[1]
+    \For{ $i=0; i < length(OriginalMessage); i++$}
+      \State $EncryptedMessage_i =
+             rotateRight(OriginalMessage_i \oplus Key_{i \bmod length(Key)})$
+      \If{$( i \bmod length(Key) ) \equiv 0$}
+        \For{ $j=0;j < length(Key); j++$ }
+          \State $Key_j = rotateRight(Key_j)$
+        \EndFor
+      \EndIf
+    \EndFor
+    \end{algorithmic}
+    \caption{An Improved XOR rotation cipher}
+    \end{figure}
+    
+    As you can see the second example is much more confusing, as it involves
+    manipulation of the actual key. As more confusion is better in 
+    cryptography the second algorithim is much better. 
+    Additionally, the encryption process can be described as a mathmatical
+    formula, as seen below.
+    
+    \begin{figure}[h]
+    \begin{equation}
+      \label{eq:Encrypt}
+      E_{i} = rightRotate(M_{i} \oplus K_{i},   
+    \end{equation}
+    \caption{Where \( K_i \) is defined as in \eqref{eq:keyDerive}}
+    \end{figure}
 \end{document}
