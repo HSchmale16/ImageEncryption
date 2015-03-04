@@ -156,7 +156,12 @@
     As all of the math is out of the way we move on to the source code
     which is relatively simple, and written in C++.
     
-    \lstset{language=C++}
+    \lstset{language=C++,
+            keywordstyle=\color{red},
+            basicstyle=\small,
+            numbers=left,
+            numberstyle=\tiny,
+            stepnumber=1}
     \begin{lstlisting}[caption=C++ Encryption Source Code]
 void encryptString(const uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
                    uint64_t inlen, uint8_t *outstr, uint64_t outlen){
@@ -183,6 +188,7 @@ void encryptString(const uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
     //std::cerr << "Finished Encrypting String" << std::endl;
 }
     \end{lstlisting}
+
 \subsection{Decrypting a message}
     Decryption is just undoing what has been done to a message, now a
     good cipher will have many differint possibilities to defeat most
