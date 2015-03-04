@@ -82,7 +82,7 @@
             \times B)}_\text{places}) 
   \end{equation}
 
-  The above equation describes how to calculate the key value to use
+  Equation \eqref{eq:keyDerive} describes how to calculate the key value to use
   in iteration \( i \) of the encryption algorithim. It requires the use
   of a bitwise rotate operation so that no data is lost, through the
   replacement by zeros when using standard bitwise shifts. And as zeros
@@ -153,8 +153,28 @@
     \caption{Where \( K_i \) is defined as in \eqref{eq:keyDerive}}
     \end{figure}
 
-    As all of the math is out of the way we move on to the source code
-    which is relatively simple, and written in C++.
+    \subsubsection{Programming an Encryption Algorithim}
+    Now to implement such an algorithim in C++, we need to perform several
+    checks before we can even begin. First of all, nulls must be
+    checked for, as three parameters are pointers, and can be null. As writing
+    to a null pointer would cause a segmentation fault, it must be checked for.
+    Therefore, the encryption function should start with a couple of standard
+    asserts or macro that does the same thing. Additionally, memory allocation
+    sizes must be checked, otherwise the encryption function might write to
+    memory that the program hasn't  been allocated, causing another
+    segmentation fault. Finally, the encryption key must be copied into
+    local memory as the Key is passed by pointer, and can be modified within
+    that function and returned via pointer, the encryption key might be used
+    in other parts of the program and should be treated as constant memory.
+    Therefore there are several checks to be made before even running the
+    algorithim.
+    
+    Additionally, the implemented algorithim must defend against cold-boot
+    attacks, so the usage of memory that clears itself after being finished
+    with is a must. This is especially important where the encryption key
+    was stored. Therefore, a for loop is used to clear the allocated memory
+    before the encryption function is returns to the caller.
+    
     
     \lstset{language=C++,
             keywordstyle=\color{red},
