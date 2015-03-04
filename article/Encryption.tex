@@ -2,7 +2,7 @@
 % Henry J Schmale
 % March 3, 2015
 
-\documentclass[12pt,draft]{article}
+\documentclass[12pt]{article}
 
 % Margins
 \usepackage[letterpaper]{geometry}
@@ -21,8 +21,10 @@
 % Math Formulas
 \usepackage{mathtools}
 
-% Algorithims Formatting
+% Algorithims and code Formatting
 \usepackage[]{algpseudocode}
+\usepackage{listings}
+\usepackage{color}
 
 % Start of the document
 \begin{document}
@@ -117,7 +119,7 @@
     If there was nothing more than an XOR opperation in this algorithim,
     it would be incredibly easy to use a brute-force attack against.
     However, since a bit rotation was added into the algorithim, there
-    are now \(CHAR_BITS^2\) possible solutions to the message, making
+    are now \(CHAR\_BITS^2\) possible solutions to the message, making
     brute-forcing it, less of an option. However, the key is still
     vurnable to being brute-forced, so modification of the key is also
     required. Yielding, something more like the following.
@@ -150,4 +152,40 @@
     \end{equation}
     \caption{Where \( K_i \) is defined as in \eqref{eq:keyDerive}}
     \end{figure}
+
+    As all of the math is out of the way we move on to the source code
+    which is relatively simple, and written in C++.
+    
+    \lstset{language=C++}
+    \begin{lstlisting}[caption=C++ Encryption Source Code]
+void encryptString(const uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
+                   uint64_t inlen, uint8_t *outstr, uint64_t outlen){
+    assert(inlen <= outlen);
+    assert(KEY != NULL);
+    assert(instr != NULL);
+    assert(outstr != NULL);
+    uint8_t *KeyCopy = new uint8_t[keyLen];
+    memcpy(KeyCopy, KEY, keyLen);
+    for(uint64_t i = 0; i < inlen; i++){
+        outstr[i] = instr[i] ^ KeyCopy[i % keyLen];
+        outstr[i] = rotateRight(outstr[i], 1);
+        if((i % keyLen) == 0){
+            for(int j = 0; j < keyLen; j++){
+                KeyCopy[j] = rotateRight(KeyCopy[j], 1);
+            }
+        }
+    }
+    // Secure Memory
+    for(uint16_t i = 0; i < keyLen; i++){
+        KeyCopy[i] = 0; // overwrite the key copy
+    }
+    delete[] KeyCopy;
+    //std::cerr << "Finished Encrypting String" << std::endl;
+}
+    \end{lstlisting}
+\subsection{Decrypting a message}
+    Decryption is just undoing what has been done to a message, now a
+    good cipher will have many differint possibilities to defeat most
+    cryptoanalysis methods. In other words, decryption is just inverse
+    opperations.
 \end{document}
