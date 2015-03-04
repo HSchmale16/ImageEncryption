@@ -17,6 +17,8 @@
 
 % Spacing
 \setlength{\textheight}{9.5in}
+\usepackage{setspace}
+\doublespacing
 
 % Math Formulas
 \usepackage{mathtools}
@@ -76,7 +78,7 @@
   % Equation describing the value of K to use in this iteration
   \begin{equation}
     \label{eq:keyDerive}
-    K_i = rightRotate(
+    K_i = rotateRight(
         \underbrace{K_i \bmod length(K)}_\text{Value to rotate},
         \underbrace{\frac{i}{length(K)} \bmod (sizeof(type(K)) 
             \times B)}_\text{places}) 
@@ -148,7 +150,7 @@
     \begin{figure}[h]
     \begin{equation}
       \label{eq:Encrypt}
-      E_{i} = rightRotate(M_{i} \oplus K_{i},   
+      E_{i} = rotateRight(M_{i} \oplus K_{i}),   
     \end{equation}
     \caption{Where \( K_i \) is defined as in \eqref{eq:keyDerive}}
     \end{figure}
@@ -173,9 +175,19 @@
     attacks, so the usage of memory that clears itself after being finished
     with is a must. This is especially important where the encryption key
     was stored. Therefore, a for loop is used to clear the allocated memory
-    before the encryption function is returns to the caller.
+    before the encryption function returns to the caller. Also, the
+    encryption program must defend against multiple other kinds of attacks,
+    most of which depend on finding the encryption key sitting somewhere
+    in memory, therefore the encryption keys used in this program shouldn't
+    look like normal keys at all, to protect against such an attack.
     
-    
+    Now, when implementing the actual algorithim your function will require
+    six parameters to be passed to it, if one is implementing it in C/C++.
+    Three parameters are pointers to hold the input, output, and the key, the
+    rest are to hold the amount of memory allocated to each pointer. When
+    implementing the for loops, 64-bit counter will be necessary due to the
+    possibly large amount of input data.
+
     \lstset{language=C++,
             keywordstyle=\color{red},
             basicstyle=\small,
@@ -213,5 +225,7 @@ void encryptString(const uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
     Decryption is just undoing what has been done to a message, now a
     good cipher will have many differint possibilities to defeat most
     cryptoanalysis methods. In other words, decryption is just inverse
-    opperations.
+    operations. However, this doesn't work so well if one is trying to
+    break an encryption algorithim, as the creator can't be threatened
+    to break it, as he doesn't know the key. 
 \end{document}
