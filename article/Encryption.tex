@@ -44,25 +44,23 @@
   and hide it inside of a standard image file. This paper describes
   the implementation of a simple xor rotate cipher, and then gives
   a description on how to encode the output data inside of an image.
-  Additionally, this paper will include details of extracting the
+  Additionally, this paper includes details of extracting the
   encrypted message from an image, and undoing the enryption on that
   image.
 \end{abstract}
 
+\newpage
 \tableofcontents                       % Table of Contents
+\newpage
 
 % MAIN CONTENT
 \section{Introduction}
   Encryption is a powerful tool to protect your information, but standard
   encryption can be insecure if found. Additionally, it can be incriminating
   if found, so that is why hiding the encrypted information is more important
-  then ever. This practice is called stenography, and I have developed such
-  a system to encrypt a text document, and hide it inside of an image, this
-  document describes in detail the processed used to encrypt and hide the
-  information inside of a photograph.
-
-  This paper describes the design and implementation of an algorithim to
-  hide data inside of a standard image file. 
+  then ever. This practice is called stenography. This document describes the
+  design and implementation of such a system to encrypt and hide information
+  inside of a standard image file. 
 
 \section{Encryption and Decryption}
   The encryption used in this system is a simple XOR rotation cipher.
@@ -114,7 +112,8 @@
     \begin{algorithmic}[1]
     \For{$i=0; i < length(OriginalMessage); i++$}
       \State $EncryptedMesage_i =
-             rotateRight(OriginalMessage_i \oplus Key_{i \bmod length(Key)})$
+             OriginalMessage_i \oplus Key_{i \bmod length(Key)}$
+      \State $EncryptedMessage_i = rotateRight(EncryptedMessage_i$
     \EndFor 
     \end{algorithmic}
     \caption{A Basic XOR rotation cipher}
@@ -220,7 +219,6 @@ void encryptString(const uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
         KeyCopy[i] = 0; // overwrite the key copy
     }
     delete[] KeyCopy;
-    //std::cerr << "Finished Encrypting String" << std::endl;
 }
     \end{lstlisting}
 \doublespacing
@@ -232,8 +230,13 @@ void encryptString(const uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
     break an encryption algorithim, as the creator can't be threatened
     to break it, as he doesn't know the key.
     
+    
+
 \section{Stenography}
   Stenography is the practice on hiding a message. The goal is take
   a message and make sure that it gets to where it needs to get by
-  making the message appear to not be a message.  
+  making the message appear to not be a message. After all, if one
+  does not know a message exists, they can not intercept it.
+
+  \subsection{Image Stenography}
 \end{document}
