@@ -187,9 +187,10 @@
     six parameters to be passed to it, if one is implementing it in C/C++.
     Three parameters are pointers to hold the input, output, and the key, the
     rest are to hold the amount of memory allocated to each pointer. When
-    implementing the for loops, 64-bit counter will be necessary due to the
+    implementing the for loops, a 64-bit counter will be necessary due to the
     possibly large amount of input data.
 
+    \singlespacing
     \lstset{language=C++,
             keywordstyle=\color{red},
             basicstyle=\small,
@@ -222,12 +223,17 @@ void encryptString(const uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
     //std::cerr << "Finished Encrypting String" << std::endl;
 }
     \end{lstlisting}
-
+\doublespacing
 \subsection{Decrypting a message}
     Decryption is just undoing what has been done to a message, now a
     good cipher will have many differint possibilities to defeat most
     cryptoanalysis methods. In other words, decryption is just inverse
     operations. However, this doesn't work so well if one is trying to
     break an encryption algorithim, as the creator can't be threatened
-    to break it, as he doesn't know the key. 
+    to break it, as he doesn't know the key.
+    
+\section{Stenography}
+  Stenography is the practice on hiding a message. The goal is take
+  a message and make sure that it gets to where it needs to get by
+  making the message appear to not be a message.  
 \end{document}

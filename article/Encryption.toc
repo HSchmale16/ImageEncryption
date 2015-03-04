@@ -1,5 +1,6 @@
-\contentsline {section}{\numberline {1}Introduction}{1}
+\contentsline {section}{\numberline {1}Introduction}{2}
 \contentsline {section}{\numberline {2}Encryption and Decryption}{2}
 \contentsline {subsection}{\numberline {2.1}Encrypting a Message}{3}
 \contentsline {subsubsection}{\numberline {2.1.1}Programming an Encryption Algorithim}{4}
 \contentsline {subsection}{\numberline {2.2}Decrypting a message}{5}
+\contentsline {section}{\numberline {3}Stenography}{5}
