@@ -19,4 +19,8 @@ cd $projectDir                         # Return to projectDir
 cd $articleDir
 echo -n -e 'Making Article                          [\033[0;32m'
 $latexEng Encryption.tex > /dev/null   # Silence a noisy command
-echo -e    'Done\033[0m]'
+if [ $? -eq 0 ] ; then
+    echo -e 'PASS\033[0m]'
+else
+    echo -e 'FAIL\033[0m]'
+fi
