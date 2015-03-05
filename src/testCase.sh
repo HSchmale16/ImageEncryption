@@ -8,7 +8,7 @@
 # make test file
 # TEST VARS
 key="QWERTY7991"                   # Key to use for encryption
-testdata="test.txt"                # file to use as test data
+testdata="test.txt"                # file to use as test data, this should be new file
 
 # Make test data file
 cat *.cpp > $testdata
@@ -35,7 +35,30 @@ NDEV=/dev/null                     # Null Device
 # -------------------------------------
 # Script Functions
 # -------------------------------------
+# Clean Up
+# Removes all generated files
+function CleanUp {
+rm -f $testdata
+rm -f $ecryTxtOut
+rm -f $dcryTxtOut
+rm -f $imgOut
+rm -f $imgTxtOut
+rm -rf *.o
+}
 
+# Data Intergretity Test
+# accepts 1 param, the file to diff against original
+function diffTestData {
+echo -n "Diff against original                   ["
+cmp -s $testdata $1 >/dev/null
+if [ $? -eq 0 ]; then    
+    echo -e "${PASS}PASS${NC}]"
+    echo "Running Clean up, as there is a bunch of junk files now"
+    CleanUp
+else
+    echo -e "${FAIL}FAIL${NC}]"
+fi
+} # end diffTestData
 # -------------------------------------
 # Begin Primary Script
 # -------------------------------------
@@ -54,15 +77,6 @@ else
     exit
 fi
 
-
 # -------------------------------------
-# Data Intergretity Test
-echo -n "Now Performing Data Intergretity Test   ["
-cmp -s $testdata $text_out >/dev/null
-if [ $? -eq 0 ]; then
-    echo -e "${PASS}PASS${NC}]"
-    echo "Running Clean up, as there is a bunch of junk files now"
-    CleanUp
-else
-    echo -e "${FAIL}FAIL${NC}]"
-fi
+# Encryption Test
+# this tests if there is an file output from the encrypt command
