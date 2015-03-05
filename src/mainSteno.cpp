@@ -19,70 +19,7 @@
 #include <iomanip>
 #include <ios>
 #include <CImg.h>
-
-/** \brief rotates a variables bits right n pos then returns that
- * \note n is 8 bits only because no standard type in C has more than
- * 64 bits, 8 bits is more than sufficent for this purpose.
- */
-template<typename TYP>
-TYP rotateRight(TYP x, uint8_t n){
-    return (x >> n) | (x << ((sizeof(x) * CHAR_BIT) - n));
-}
-
-template<typename TYP>
-TYP rotateLeft(TYP x, uint8_t n){
-    return (x << n) | (x >> ((sizeof(x) * CHAR_BIT) - n));
-}
-
-void encryptString(const uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
-                   uint64_t inlen, uint8_t *outstr, uint64_t outlen){
-    assert(inlen <= outlen);
-    assert(KEY != NULL);
-    assert(instr != NULL);
-    assert(outstr != NULL);
-    uint8_t *KeyCopy = new uint8_t[keyLen];
-    memcpy(KeyCopy, KEY, keyLen);
-    for(uint64_t i = 0; i < inlen; i++){
-        outstr[i] = instr[i] ^ KeyCopy[i % keyLen];
-        outstr[i] = rotateRight(outstr[i], 1);
-        if((i % keyLen) == 0){
-            for(int j = 0; j < keyLen; j++){
-                KeyCopy[j] = rotateRight(KeyCopy[j], 1);
-            }
-        }
-    }
-    // Secure Memory
-    for(uint16_t i = 0; i < keyLen; i++){
-        KeyCopy[i] = 0; // overwrite the key copy
-    }
-    delete[] KeyCopy;
-    //std::cerr << "Finished Encrypting String" << std::endl;
-}
-
-void decryptString(const uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
-                   uint64_t inlen, uint8_t *outstr, uint64_t outlen){
-    assert(inlen <= outlen);
-    assert(KEY != NULL);
-    assert(instr != NULL);
-    assert(outstr != NULL);
-    uint8_t *KeyCopy = new uint8_t[keyLen];
-    memcpy(KeyCopy, KEY, keyLen);
-    for(uint64_t i = 0; i < inlen; i++){
-        outstr[i] = rotateLeft(instr[i], 1);
-        outstr[i] = outstr[i] ^ KeyCopy[i % keyLen];
-        if((i % keyLen) == 0){
-            for(int j = 0; j < keyLen; j++){
-                KeyCopy[j] = rotateRight(KeyCopy[j], 1);
-            }
-        }
-    }
-    // Secure Memory
-    for(uint16_t i = 0; i < keyLen; i++){
-        KeyCopy[i] = 0; // overwrite the key copy
-    }
-    delete[] KeyCopy;
-    //std::cerr << "Finished Decrypting String" << std::endl;
-}
+#include "crypto.h"
 
 void writeOutToImage(const char * fname, uint8_t *data,
                      uint64_t lenData){
@@ -145,63 +82,5 @@ uint64_t readInFromImage(const char *fname, uint8_t **readInStr){
 
 // Program Entry Point
 int main(int argc, char **argv){
-    if(argc < 4){
-        std::cerr << "Too few args passed to program" << std::endl;
-        exit(0);
-    }
     
-    uint8_t *indata = NULL,
-            *outdata = NULL;
-    uint64_t fileLength = 0;
-    
-    // Do I Encrypt or Decrypt?
-    if(argv[1][0] == 'e'){
-        // Encrypt the given file
-        std::ifstream instr;
-        instr.open(argv[2]);
-        if(!instr){
-            std::cerr << "Failed to open file: " << argv[2] << std::endl;
-            exit(0);
-        }
-        std::string str;
-        instr.seekg(0, std::ios::end);
-        str.reserve(instr.tellg());
-        instr.seekg(0, std::ios::beg);
-        str.assign((std::istreambuf_iterator<char>(instr)),
-                    std::istreambuf_iterator<char>());
-        fileLength = str.length();
-        indata = new uint8_t[fileLength];
-        outdata = new uint8_t[fileLength];
-        memcpy(indata, (void*)(str.c_str()), str.length()-1);
-        encryptString((uint8_t*)argv[4], strlen(argv[4]), indata,
-                      fileLength, outdata, fileLength);
-        writeOutToImage(argv[3], outdata, fileLength);
-        instr.close();
-    }else if(argv[1][0] == 'd'){
-        // decrypt the given file
-        fileLength = readInFromImage(argv[2], &indata);
-        outdata = new uint8_t[fileLength];
-        assert(indata != NULL);
-        assert(outdata != NULL);
-        decryptString((uint8_t*)argv[4], strlen(argv[4]), indata,
-                      fileLength, outdata, fileLength);
-        std::ofstream outfile;
-        outfile.open(argv[3], std::ios::binary);
-        for(uint64_t i = 0; i < fileLength; i++){
-            outfile << outdata[i];
-        }
-        outfile.close();
-    }else{
-        // invalid args
-        std::cerr << "Invalid arguement as to whether to encrypt or "
-                  << "decrypt the given file" << std::endl;
-    }
-
-    // perform clean up
-    if(indata != NULL){
-        delete[] indata;
-    }
-    if(outdata != NULL){
-        delete[] outdata;
-    }
 }

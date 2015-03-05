@@ -13,7 +13,8 @@ LD_FLAGS= \
 
 # Cryptography Stuff
 CRYPT_SRCS= \
-	mainCrypt.cpp
+	mainCrypt.cpp \
+	crypto.cpp
 CRYPT_OBJS=$(CRYPT_SRCS:.cpp=.o)
 CRYPT_EXE=Crypt
 
