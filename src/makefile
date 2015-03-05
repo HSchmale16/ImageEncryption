@@ -44,4 +44,4 @@ $(STENO_EXE): $(STENO_OBJS)
 clean:
 	if [ -e $(STENO_EXE) ] ; then rm $(STENO_EXE) ; fi
 	if [ -e $(CRYPT_EXE) ] ; then rm $(CRYPT_EXE) ; fi
-	if [ -e *.o ] ; then rm -r *.o ; fi
+	rm -rf *.o
