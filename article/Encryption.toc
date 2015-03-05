@@ -1,4 +1,5 @@
 \contentsline {section}{\numberline {1}Introduction}{3}
+\contentsline {subsection}{\numberline {1.1}A Note About the Code in this Article}{3}
 \contentsline {section}{\numberline {2}Encryption and Decryption}{3}
 \contentsline {subsection}{\numberline {2.1}Encrypting a Message}{4}
 \contentsline {subsubsection}{\numberline {2.1.1}Programming an Encryption Algorithim}{5}

@@ -58,9 +58,17 @@
   Encryption is a powerful tool to protect your information, but standard
   encryption can be insecure if found. Additionally, it can be incriminating
   if found, so that is why hiding the encrypted information is more important
-  then ever. This practice is called stenography. This document describes the
-  design and implementation of such a system to encrypt and hide information
-  inside of a standard image file. 
+  then ever. The art and science of hiding information in plain sight is 
+  called stenography. This document describes the design and implementation
+  of such a system to encrypt and hide information inside of a standard 
+  image file.
+
+  \subsection{A Note About the Code in this Article}
+    The code samples featured in this article are written in C-style C++11.
+    This means that the code featured in this article makes use of c-style
+    arrays and direct bit manipulation. The main reason the code samples
+    featured in this article are written in C++11 is the use of standardized 
+    fixed-width integers included in the standard library.
 
 \section{Encryption and Decryption}
   The encryption used in this system is a simple XOR rotation cipher.
