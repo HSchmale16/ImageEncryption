@@ -10,6 +10,7 @@ ImgCrypt
 *.jpg
 *.png
 *.pdf
+*.dvi
 
 # Generated From Test Cases
 *.bmp.*

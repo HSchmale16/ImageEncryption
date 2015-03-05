@@ -74,7 +74,7 @@
   As this algorithim uses a rotating key to encrypt mesages there
   must be regular pattern to how the key changes. As such the
   change to the key is a simple bit rotation after each use. 
-  
+
   % Equation describing the value of K to use in this iteration
   \begin{equation}
     \label{eq:keyDerive}
@@ -144,7 +144,7 @@
     
     As you can see the second example is much more confusing, as it involves
     manipulation of the actual key. As more confusion is better in 
-    cryptography the second algorithim is much better. 
+    cryptography the second algorithim is much better.
     Additionally, the encryption process can be described as a mathmatical
     formula, as seen below.
     
@@ -169,7 +169,7 @@
     local memory as the Key is passed by pointer, and can be modified within
     that function and returned via pointer, the encryption key might be used
     in other parts of the program and should be treated as constant memory.
-    Therefore there are several checks to be made before even running the
+    Therefore, there are several checks to be made before even running the
     algorithim.
     
     Additionally, the implemented algorithim must defend against cold-boot
@@ -227,16 +227,43 @@ void encryptString(const uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
     good cipher will have many differint possibilities to defeat most
     cryptoanalysis methods. In other words, decryption is just inverse
     operations. However, this doesn't work so well if one is trying to
-    break an encryption algorithim, as the creator can't be threatened
-    to break it, as he doesn't know the key.
-    
-    
+    break an encryption algorithim, as  a good algorithim would use a
+    key and have hundreds of millions of possibilities. Thus, rendering
+    a brute force approach impossible. As such to decrypt our message,
+    we need 
 
+    However, decryption is just an inversion of the encyption algorithim,
+    as such we can implement it in revese as such, see the listing below.
+
+    \begin{figure}[h]
+    \begin{algorithmic}[1]
+    \For{ $i=0; i < length(OriginalMessage); i++$}
+      \State $EncryptedMessage_i =
+             rotateLeft(OriginalMessage_i \oplus Key_{i \bmod length(Key)})$
+      \If{$( i \bmod length(Key) ) \equiv 0$}
+        \For{ $j=0;j < length(Key); j++$ }
+          \State $Key_j = rotateRight(Key_j)$
+        \EndFor
+      \EndIf
+    \EndFor
+    \end{algorithmic}
+    \caption{A reversal of an XOR rotation cipher}
+    \end{figure}
+
+    To undo the encryption algorithim
 \section{Stenography}
   Stenography is the practice on hiding a message. The goal is take
   a message and make sure that it gets to where it needs to get by
   making the message appear to not be a message. After all, if one
-  does not know a message exists, they can not intercept it.
-
+  does not know a message exists, they can not intercept it. Therefore,
+  stenography should be an intergral part of the message sending process.
+  
   \subsection{Image Stenography}
+    As images are a very common feature in the modern internet browsing
+    feature making it not hard to see that hiding a message inside of an
+    image is a great idea. However, most images found in modern web pages
+    are compressed images, which can either be lossless or lossy. Lossy
+    compression is bad for stenography in images as it causes the loss
+    of data in the image, and can corrupt the message. As such lossless
+    compression is superior for stenography of messages.
 \end{document}
