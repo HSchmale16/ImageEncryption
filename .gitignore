@@ -2,8 +2,10 @@
 *.out
 *.o
 
-# The Executable
+# The Executables
 ImgCrypt
+Crypt
+Steno
 
 # Generated Data
 *.bmp

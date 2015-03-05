@@ -3,7 +3,8 @@
  * \date February 25, 2015
  * \file mainSteno.cpp
  *
- * This file contains the main function to demonstrate the stenography system.
+ * This file contains the main function to demonstrate
+ * the stenography system.
  */
 
 #include <cstdint>
