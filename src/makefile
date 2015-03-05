@@ -25,25 +25,37 @@ STENO_SRCS= \
 STENO_OBJS=$(STENO_SRCS:.cpp=.o)
 STENO_EXE=Steno
 
-# Primary Build Target
-all: $(CRYPT_SRCS) \
-     $(CRYPT_EXE)  \
-	 $(STENO_SRCS) \
-	 $(STENO_EXE)
+# combined executable stuff
+# combines the funcion of both executables into one
+COMBO_SRCS= \
+	mainCombo.cpp \
+	crypto.cpp \
+	steno.cpp
+COMBO_OBJS=$(COMBO_SRCS:.cpp=.o)
+COMBO_EXE=ImageCrypt
 
-$(CRYPT_EXE): $(CRYPT_OBJS)
+# Primary Build Target, Builds Everything and all other targets
+all: $(CRYPT_EXE)  \
+	 $(STENO_EXE) \
+	 $(COMBO_EXE)
+
+$(CRYPT_EXE): $(CRYPT_SRCS) $(CRYPT_OBJS)
 	$(CXX) $(LD_FLAGS) -o $@ $(CRYPT_OBJS)
 
-$(STENO_EXE): $(STENO_OBJS)
+$(STENO_EXE): $(STENO_SRCS)  $(STENO_OBJS)
 	$(CXX) $(LD_FLAGS) -o $@ $(STENO_OBJS)
+
+$(COMBO_EXE): $(COMBO_SRCS) $(COMBO_OBJS)
+	$(CXX) $(LD_FLAGS) -o $@ $(COMBO_OBJS)
 
 # Rule to make *.cpp files
 .cpp.o:
 	$(CXX) -c $(CXX_FLAGS) -o $@ $<
 
 
-# Get rid of object files and built executable
+# Get rid of object files and built executables if they exist
 clean:
-	if [ -e $(STENO_EXE) ] ; then rm $(STENO_EXE) ; fi
-	if [ -e $(CRYPT_EXE) ] ; then rm $(CRYPT_EXE) ; fi
+	if [ -e $(STENO_EXE) ] ; then rm -f $(STENO_EXE) ; fi
+	if [ -e $(CRYPT_EXE) ] ; then rm -f $(CRYPT_EXE) ; fi
+	if [ -e $(COMBO_EXE) ] ; then rm -f $(COMBO_EXE) ; fi
 	rm -rf *.o
