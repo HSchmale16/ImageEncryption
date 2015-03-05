@@ -20,7 +20,8 @@ CRYPT_EXE=Crypt
 
 # Stenography Stuff
 STENO_SRCS= \
-	mainSteno.cpp
+	mainSteno.cpp \
+	steno.cpp
 STENO_OBJS=$(STENO_SRCS:.cpp=.o)
 STENO_EXE=Steno
 

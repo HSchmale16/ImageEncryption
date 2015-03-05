@@ -18,7 +18,6 @@
 #include <fstream>
 #include <iomanip>
 #include <ios>
-#include <CImg.h>
 #include "crypto.h"
  
 int main(int argc, char **argv){
