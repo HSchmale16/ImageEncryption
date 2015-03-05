@@ -191,7 +191,7 @@
 
     \singlespacing
     \lstset{language=C++,
-            keywordstyle=\color{red},
+%            keywordstyle=\color{red},
             basicstyle=\small,
             numbers=left,
             numberstyle=\tiny,
@@ -237,10 +237,10 @@ void encryptString(const uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
 
     \begin{figure}[h]
     \begin{algorithmic}[1]
-    \For{ $i=0; i < length(OriginalMessage); i++$}
-      \State $EncryptedMessage_i =
-             rotateLeft(OriginalMessage_i \oplus Key_{i \bmod length(Key)})$
-      \If{$( i \bmod length(Key) ) \equiv 0$}
+    \For{ $i=0; i < length(EncryptedMessage); i++$}
+      \State $EncryptedMessage_i = rotateLeft(EncryptedMessage_i)$
+      \State $DecryptedMessage_i = EncryptedMessage_i \oplus Key_i$
+      \If{$(i \bmod length(Key)) \equiv 0$}
         \For{ $j=0;j < length(Key); j++$ }
           \State $Key_j = rotateRight(Key_j)$
         \EndFor
@@ -250,7 +250,12 @@ void encryptString(const uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
     \caption{A reversal of an XOR rotation cipher}
     \end{figure}
 
-    To undo the encryption algorithim
+    To undo the encryption algorithim, the key used to encrypt the message
+    originally, and the exact operations used to encrypt the message must
+    be done in reverse, however the operations performed on the key must be
+    exactly the same operations originally if the encrypted message is being
+    iterated forwards, in order to keep the key consistant with the message.
+      
 \section{Stenography}
   Stenography is the practice on hiding a message. The goal is take
   a message and make sure that it gets to where it needs to get by
