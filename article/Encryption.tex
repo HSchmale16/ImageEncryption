@@ -100,12 +100,12 @@
   all the bits would remain the same.
 
   This algorithim can use an n-bit key as the new key value is
-  determined indepently of the length of the key and provides
+  determined independtly of the length of the key and provides
   facilities for working with various key lengths. As such it can use
   a n-bit key for encryption and decryption.
 
-  The encryption algorithim requires the use of the bitwise xor and
-  takes advantage of the speed yielded with an xor opperation, due to
+  The encryption algorithim requires the use of the bitwise XOR and
+  takes advantage of the speed yielded with an XOR operation, due to
   no carry bits being required, and dedicated circuitry existing on most
   modern processors. Below is a description of the algorithim in detail.
 
@@ -114,7 +114,7 @@
     The general process of encrypting a message using an xor rotate
     cipher is quite simple, but it becomes more complex with the
     addition of a rotating key. The general process of encryption
-    using an xor rotate cipher is descriped below. 
+    using an XOR rotation cipher is descriped below. 
     
     \begin{figure}[h]
     \begin{algorithmic}[1]
@@ -139,7 +139,8 @@
     \begin{algorithmic}[1]
     \For{ $i=0; i < length(OriginalMessage); i++$}
       \State $EncryptedMessage_i =
-             rotateRight(OriginalMessage_i \oplus Key_{i \bmod length(Key)})$
+             OriginalMessage_i \oplus Key_{i \bmod length(Key)}$
+      \State $EncryptedMessage_i = rotateRight(EncryptedMessage_i)$
       \If{$( i \bmod length(Key) ) \equiv 0$}
         \For{ $j=0;j < length(Key); j++$ }
           \State $Key_j = rotateRight(Key_j)$
@@ -154,15 +155,12 @@
     manipulation of the actual key. As more confusion is better in 
     cryptography the second algorithim is much better.
     Additionally, the encryption process can be described as a mathmatical
-    formula, as seen below.
+    formula, as seen in equation \eqref{eq:Encrypt}.
     
-    \begin{figure}[h]
     \begin{equation}
       \label{eq:Encrypt}
-      E_{i} = rotateRight(M_{i} \oplus K_{i}),   
+      E_{i} = rotateRight(M_{i} \oplus K_{i})   
     \end{equation}
-    \caption{Where \( K_i \) is defined as in \eqref{eq:keyDerive}}
-    \end{figure}
 
     \subsubsection{Programming an Encryption Algorithim}
     Now to implement such an algorithim in C++, we need to perform several
@@ -229,6 +227,9 @@ void encryptString(const uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
     delete[] KeyCopy;
 }
     \end{lstlisting}
+
+    
+
 \doublespacing
 \subsection{Decrypting a message}
     Decryption is just undoing what has been done to a message, now a
@@ -263,6 +264,18 @@ void encryptString(const uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
     be done in reverse, however the operations performed on the key must be
     exactly the same operations originally if the encrypted message is being
     iterated forwards, in order to keep the key consistant with the message.
+    
+    \begin{equation}
+      \label{eq:XORinversion}
+      (n \oplus k) \oplus k = n
+    \end{equation}
+
+    As the operations performed to decrypt a message using an XOR rotation
+    cipher must be done in reverse from the encrpytion, meaning the first
+    operation performed is bitwise rotate left. Then, the resulting value
+    have an XOR operation performed on it with the key used for that index
+    during encryption. As XOR is its own inverse operation as shown in
+    equation \eqref{eq:XORinversion}.  
       
 \section{Stenography}
   Stenography is the practice on hiding a message. The goal is take
