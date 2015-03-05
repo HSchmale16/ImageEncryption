@@ -13,6 +13,7 @@ Steno
 *.png
 *.pdf
 *.dvi
+*.txt
 
 # Generated From Test Cases
 *.bmp.*
