@@ -1,11 +1,9 @@
 /** Image Encrypter
  * \author Henry J Schmale
  * \date February 25, 2015
+ * \file mainSteno.cpp
  *
- * Encrypts a file and then creates an Image that looks like fractal artwork
- * from the encrypted data.
- * USAGE: 
- * argv[0] e|d <infile> <outfile> <key>
+ * This file contains the main function to demonstrate the stenography system.
  */
 
 #include <cstdint>
