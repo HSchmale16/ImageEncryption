@@ -32,7 +32,7 @@ COMBO_SRCS= \
 	crypto.cpp \
 	steno.cpp
 COMBO_OBJS=$(COMBO_SRCS:.cpp=.o)
-COMBO_EXE=ImageCrypt
+COMBO_EXE=ImgCrypt
 
 # Primary Build Target, Builds Everything and all other targets
 all: $(CRYPT_EXE)  \

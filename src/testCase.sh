@@ -10,9 +10,6 @@
 key="QWERTY7991"                   # Key to use for encryption
 testdata="test.txt"                # file to use as test data, this should be new file
 
-# Make test data file
-cat *.cpp > $testdata
-
 # -------------------------------------
 # Private Script Variables
 # -------------------------------------
@@ -59,11 +56,20 @@ else
     echo -e "${FAIL}FAIL${NC}]"
 fi
 } # end diffTestData
+
+
 # -------------------------------------
 # Begin Primary Script
 # -------------------------------------
+
+# make test data set & calc size of in bytes
+cat $(find . -regex '\./.*\.[cph]*')  > $testdata
+dataSZ=$(wc -c $testdata | awk '{print $1 " Bytes"}')
+
+# Output test params
 echo "ImgCrypt Test Cases"
 echo -e "Test Data: ${BLUE}$testdata${NC}"
+echo -e "Test Size: ${BLUE}$dataSZ${NC}"
 echo -e "Test Key:  ${BLUE}$key${NC}"
 
 # -------------------------------------
