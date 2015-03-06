@@ -51,11 +51,29 @@ int main(int argc, char **argv){
         memcpy(indata, (void*)(str.c_str()), str.length()-1);
         encryptString((uint8_t*)argv[4], strlen(argv[4]), indata,
                       fileLength, outdata, fileLength);
-        //writeOutToImage(argv[3], outdata, fileLength);
+        std::ofstream outfile(argv[3], std::ios::binary);
+        for(uint64_t i = 0; i < fileLength; i++){
+            outfile << outdata[i];
+        }
+        outfile.close();
         instr.close();
     }else if(argv[1][0] == 'd'){
         // decrypt the given file
-        //fileLength = readInFromImage(argv[2], &indata);
+        std::ifstream instr;
+        instr.open(argv[2]);
+        if(!instr){
+            std::cerr << "Failed to open file: " << argv[2] << std::endl;
+            exit(0);
+        }
+        std::string str;
+        instr.seekg(0, std::ios::end);
+        str.reserve(instr.tellg());
+        instr.seekg(0, std::ios::beg);
+        str.assign((std::istreambuf_iterator<char>(instr)),
+                    std::istreambuf_iterator<char>());
+        // done reading in
+        fileLength = str.length();
+        indata = new uint8_t[fileLength];
         outdata = new uint8_t[fileLength];
         assert(indata != NULL);
         assert(outdata != NULL);
@@ -67,6 +85,7 @@ int main(int argc, char **argv){
             outfile << outdata[i];
         }
         outfile.close();
+        instr.close();
     }else{
         // invalid args
         std::cerr << "Invalid arguement as to whether to encrypt or "

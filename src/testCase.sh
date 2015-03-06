@@ -9,7 +9,7 @@
 # make test file
 # TEST VARS
 key="QWERTY7991"                   # Key to use for encryption
-testdata="test.txt"                # file to use as test data, this should be new file
+testdata="Test.txt"                # file to put test data into
 
 # -------------------------------------
 # Private Script Variables
@@ -47,7 +47,6 @@ rm -rf *.o
 # Data Intergretity Test
 # accepts 1 param, the file to diff against original
 function diffTestData {
-echo -n "Diff against original                   ["
 cmp -s $testdata $1 >/dev/null
 if [ $? -eq 0 ]; then    
     echo -e "${PASS}PASS${NC}]"
@@ -87,3 +86,8 @@ fi
 # -------------------------------------
 # Encryption Test
 # this tests if there is an file output from the encrypt command
+echo -n "Encryption Test                         ["
+$cryptoExe e $testdata $ecryTxtOut $key
+$cryptoExe d $ecryTxtOut $dcryTxtOut $key
+diffTestData $dcryTxtOut
+
