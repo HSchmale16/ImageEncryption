@@ -7,5 +7,6 @@
 \contentsline {subsubsection}{\numberline {2.2.1}Programming a Decryption Algorithim}{7}
 \contentsline {section}{\numberline {3}Stenography}{8}
 \contentsline {subsection}{\numberline {3.1}Image Stenography}{8}
-\contentsline {subsubsection}{\numberline {3.1.1}Hiding a message}{9}
-\contentsline {subsubsection}{\numberline {3.1.2}Finding a message}{9}
+\contentsline {subsubsection}{\numberline {3.1.1}Hiding a Message}{9}
+\contentsline {subsubsection}{\numberline {3.1.2}Recovering a Message}{9}
+\contentsline {subsubsection}{\numberline {3.1.3}Implementing Stenography}{9}
