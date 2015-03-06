@@ -13,6 +13,7 @@
 #include <cstring>
 #include <climits>
 #include <cmath>
+#include <cstdio>
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -59,33 +60,33 @@ int main(int argc, char **argv){
         instr.close();
     }else if(argv[1][0] == 'd'){
         // decrypt the given file
-        std::ifstream instr;
-        instr.open(argv[2]);
-        if(!instr){
-            std::cerr << "Failed to open file: " << argv[2] << std::endl;
-            exit(0);
+        std::fstream infile(argv[2], 
+                            std::ios::in | std::ios::binary | std::ios::ate);
+        if(infile.is_open()){
+            fileLength = infile.tellg();
+            indata = new uint8_t[fileLength];
+            outdata = new uint8_t[fileLength];
+            infile.seekg(0, std::ios::beg);
+            if(!infile.read((char*)indata, fileLength)){
+               std::cerr << "Failed to read file: " << argv[2] 
+                         << std::endl;
+               /** gotos are typically bad practice, but here it's
+                * nessary as break can't break out of an if statement
+                */
+               goto fail;
+            }
+            infile.close();
         }
-        std::string str;
-        instr.seekg(0, std::ios::end);
-        str.reserve(instr.tellg());
-        instr.seekg(0, std::ios::beg);
-        str.assign((std::istreambuf_iterator<char>(instr)),
-                    std::istreambuf_iterator<char>());
-        // done reading in
-        fileLength = str.length();
-        indata = new uint8_t[fileLength];
-        outdata = new uint8_t[fileLength];
         assert(indata != NULL);
         assert(outdata != NULL);
         decryptString((uint8_t*)argv[4], strlen(argv[4]), indata,
                       fileLength, outdata, fileLength);
         std::ofstream outfile;
         outfile.open(argv[3], std::ios::binary);
-        for(uint64_t i = 0; i < fileLength; i++){
+        for(uint64_t i = 0; i < fileLength + 1; i++){
             outfile << outdata[i];
         }
         outfile.close();
-        instr.close();
     }else{
         // invalid args
         std::cerr << "Invalid arguement as to whether to encrypt or "
@@ -93,6 +94,7 @@ int main(int argc, char **argv){
     }
 
     // perform clean up
+fail:
     if(indata != NULL){
         delete[] indata;
     }
