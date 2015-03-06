@@ -8,6 +8,11 @@ articleDir="$(pwd)/article"
 srcDir="$(pwd)/src"
 latexEng=pdflatex
 
+# COLOR CONSTANTS
+NC='\033[0m'                           # No Color
+PASS='\033[0;32m'                      # Green, passed test
+FAIL='\033[0;31m'                      # Red, failed test
+
 # Build the src code & test the exe on
 # encryption and decryption
 cd $srcDir
@@ -17,10 +22,10 @@ cd $projectDir                         # Return to projectDir
 
 # Article Builder
 cd $articleDir
-echo -n -e 'Making Article                          [\033[0;32m'
+echo -n -e 'Making Article                          ['
 $latexEng Encryption.tex > /dev/null   # Silence a noisy command
 if [ $? -eq 0 ] ; then
-    echo -e 'PASS\033[0m]'
+    echo -e "${PASS}PASS${NC}]"
 else
-    echo -e 'FAIL\033[0m]'
+    echo -e "${FAIL}FAIL${NC}]"
 fi

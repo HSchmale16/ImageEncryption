@@ -248,7 +248,8 @@ void encryptString(const uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
     \begin{algorithmic}[1]
     \For{ $i=0; i < length(EncryptedMessage); i++$}
       \State $EncryptedMessage_i = rotateLeft(EncryptedMessage_i)$
-      \State $DecryptedMessage_i = EncryptedMessage_i \oplus Key_i$
+      \State $DecryptedMessage_i = EncryptedMessage_i \oplus 
+                                   Key_{i \bmod length(Key)}$
       \If{$(i \bmod length(Key)) \equiv 0$}
         \For{ $j=0;j < length(Key); j++$ }
           \State $Key_j = rotateRight(Key_j)$
@@ -275,8 +276,9 @@ void encryptString(const uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
     operation performed is bitwise rotate left. Then, the resulting value
     have an XOR operation performed on it with the key used for that index
     during encryption. As XOR is its own inverse operation as shown in
-    equation \eqref{eq:XORinversion}.  
-      
+    equation \eqref{eq:XORinversion}, the XOR operation remains in the
+    decryption algorithim.
+ 
 \section{Stenography}
   Stenography is the practice on hiding a message. The goal is take
   a message and make sure that it gets to where it needs to get by
