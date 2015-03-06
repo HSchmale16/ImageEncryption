@@ -328,7 +328,7 @@ void decryptString(const uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
   
   \subsection{Image Stenography}
     As images are a very common feature in the modern internet browsing
-    feature making it not hard to see that hiding a message inside of an
+    experience, making it not hard to see that hiding a message inside of an
     image is a great idea. However, most images found in modern web pages
     are compressed images, which can either be lossless or lossy. Lossy
     compression is bad for stenography in images as it causes the loss
@@ -343,8 +343,12 @@ void decryptString(const uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
 
 
     \subsubsection{Implementing Stenography}
+    Implementing stenography with images requires use of a library, so
+    as to provide an easy way to write out to multiple formats. As such,
+    the library being used to implement this solution is the CImg library
+    \cite{cimg}.
 
-
+% Biblography
 \bibliographystyle{plain}
 \bibliography{Encryption.bib}
 \end{document}

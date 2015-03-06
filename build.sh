@@ -24,6 +24,8 @@ cd $projectDir                         # Return to projectDir
 cd $articleDir
 echo -n -e 'Making Article                          ['
 $latexEng Encryption.tex > /dev/null   # Silence a noisy command
+bibtex *.aux > /dev/null
+$latexEng Encryption.tex > /dev/null
 if [ $? -eq 0 ] ; then
     echo -e "${PASS}PASS${NC}]"
 else
