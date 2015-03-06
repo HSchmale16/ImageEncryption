@@ -28,6 +28,12 @@
 \usepackage{listings}
 \usepackage{color}
 
+\lstset{language=C++,
+        basicstyle=\small,
+        numbers=left,
+        numberstyle=\tiny,
+        stepnumber=1}
+
 % Start of the document
 \begin{document}
 
@@ -51,6 +57,8 @@
 
 \newpage
 \tableofcontents                       % Table of Contents
+\listoffigures                         % Figures List
+%\listoftables                          % Tables list
 \newpage
 
 % MAIN CONTENT
@@ -96,8 +104,8 @@
   in iteration \( i \) of the encryption algorithim. It requires the use
   of a bitwise rotate operation so that no data is lost, through the
   replacement by zeros when using standard bitwise shifts. And as zeros
-  were introduced into the key, the xor shift would no longer work as
-  all the bits would remain the same.
+  are introduced into the key, the resulting value of an XOR would no
+  longer work as a key, because the encoded values would remain the same.
 
   This algorithim can use an n-bit key as the new key value is
   determined independtly of the length of the key and provides
@@ -137,6 +145,7 @@
     
     \begin{figure}[h]
     \begin{algorithmic}[1]
+    \label{fig:ImprovRotCiph}
     \For{ $i=0; i < length(OriginalMessage); i++$}
       \State $EncryptedMessage_i =
              OriginalMessage_i \oplus Key_{i \bmod length(Key)}$
@@ -155,7 +164,8 @@
     manipulation of the actual key. As more confusion is better in 
     cryptography the second algorithim is much better.
     Additionally, the encryption process can be described as a mathmatical
-    formula, as seen in equation \eqref{eq:Encrypt}.
+    formula, as seen in equation \eqref{eq:Encrypt}. With \(K_i\) as defined
+    in equation \eqref{eq:keyDerive}.
     
     \begin{equation}
       \label{eq:Encrypt}
@@ -179,8 +189,8 @@
     algorithim.
     
     Additionally, the implemented algorithim must defend against cold-boot
-    attacks, so the usage of memory that clears itself after being finished
-    with is a must. This is especially important where the encryption key
+    attacks, so the usage of memory that clears itself after being used
+    is a must. This is especially important where the encryption key
     was stored. Therefore, a for loop is used to clear the allocated memory
     before the encryption function returns to the caller. Also, the
     encryption program must defend against multiple other kinds of attacks,
@@ -196,12 +206,6 @@
     possibly large amount of input data.
 
     \singlespacing
-    \lstset{language=C++,
-%            keywordstyle=\color{red},
-            basicstyle=\small,
-            numbers=left,
-            numberstyle=\tiny,
-            stepnumber=1}
     \begin{lstlisting}[caption=C++ Encryption Source Code]
 void encryptString(const uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
                    uint64_t inlen, uint8_t *outstr, uint64_t outlen){
@@ -278,6 +282,42 @@ void encryptString(const uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
     during encryption. As XOR is its own inverse operation as shown in
     equation \eqref{eq:XORinversion}, the XOR operation remains in the
     decryption algorithim.
+
+    \subsubsection{Programming a Decryption Algorithim}
+    Implementing a decryption algorithim is a bit more challenging than
+    implementing an encryption algorithim. As some encrypted data can include
+    some padding in the actual message, or in other words garbage information.
+    Recognizing the padding can be a major challenge, as some messages might
+    have padding, while other messages might not.
+
+    \singlespacing
+    \begin{lstlisting}[caption=C++ Decryption Code]
+void decryptString(const uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
+                   uint64_t inlen, uint8_t *outstr, uint64_t outlen){
+    assert(inlen <= outlen);
+    assert(KEY != NULL);
+    assert(instr != NULL);
+    assert(outstr != NULL);
+    uint8_t *KeyCopy = new uint8_t[keyLen];
+    memcpy(KeyCopy, KEY, keyLen);
+    for(uint64_t i = 0; i < inlen; i++){
+        outstr[i] = rotateLeft(instr[i], 1);
+        outstr[i] = outstr[i] ^ KeyCopy[i % keyLen];
+        if((i % keyLen) == 0){
+            for(int j = 0; j < keyLen; j++){
+                KeyCopy[j] = rotateRight(KeyCopy[j], 1);
+            }
+        }
+    }
+    // Secure Memory
+    for(uint16_t i = 0; i < keyLen; i++){
+        KeyCopy[i] = 0; // overwrite the key copy
+    }
+    delete[] KeyCopy;
+    //std::cerr << "Finished Decrypting String" << std::endl;
+}
+    \end{lstlisting}
+    \doublespacing
  
 \section{Stenography}
   Stenography is the practice on hiding a message. The goal is take
@@ -293,6 +333,12 @@ void encryptString(const uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
     are compressed images, which can either be lossless or lossy. Lossy
     compression is bad for stenography in images as it causes the loss
     of data in the image, and can corrupt the message. As such lossless
-    compression, which doesn't change the byte values of each pixel, is
-    superior for stenography.
+    compression, which doesn't change the byte values of each pixel, 
+    thus making it superior for stenography.
+    
+    \subsubsection{Hiding a message}
+    
+    
+    \subsubsection{Finding a message}    
+
 \end{document}

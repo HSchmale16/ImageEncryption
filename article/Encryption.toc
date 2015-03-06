@@ -4,5 +4,8 @@
 \contentsline {subsection}{\numberline {2.1}Encrypting a Message}{4}
 \contentsline {subsubsection}{\numberline {2.1.1}Programming an Encryption Algorithim}{5}
 \contentsline {subsection}{\numberline {2.2}Decrypting a message}{6}
-\contentsline {section}{\numberline {3}Stenography}{7}
-\contentsline {subsection}{\numberline {3.1}Image Stenography}{7}
+\contentsline {subsubsection}{\numberline {2.2.1}Programming a Decryption Algorithim}{7}
+\contentsline {section}{\numberline {3}Stenography}{8}
+\contentsline {subsection}{\numberline {3.1}Image Stenography}{8}
+\contentsline {subsubsection}{\numberline {3.1.1}Hiding a message}{9}
+\contentsline {subsubsection}{\numberline {3.1.2}Finding a message}{9}
