@@ -291,5 +291,6 @@ void encryptString(const uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
     are compressed images, which can either be lossless or lossy. Lossy
     compression is bad for stenography in images as it causes the loss
     of data in the image, and can corrupt the message. As such lossless
-    compression is superior for stenography of messages.
+    compression, which doesn't change the byte values of each pixel, is
+    superior for stenography.
 \end{document}

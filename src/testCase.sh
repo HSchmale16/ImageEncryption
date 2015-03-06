@@ -2,7 +2,8 @@
 # @author Henry J Schmale
 # @date February 28, 2015
 # Test Script for Image Encrypter Program by me
-
+# NOTE: The test data is generated from the source code files in the current
+#       current directory.
 # NOTE: THE SUCCESS/FAIL BRACKET STARTS at col50
 
 # make test file
