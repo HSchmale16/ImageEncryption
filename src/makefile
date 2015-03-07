@@ -14,14 +14,16 @@ LD_FLAGS= \
 # Cryptography Stuff
 CRYPT_SRCS= \
 	mainCrypt.cpp \
-	crypto.cpp
+	crypto.cpp \
+	fileHandler.cpp
 CRYPT_OBJS=$(CRYPT_SRCS:.cpp=.o)
 CRYPT_EXE=Crypt
 
 # Stenography Stuff
 STENO_SRCS= \
 	mainSteno.cpp \
-	steno.cpp
+	steno.cpp \
+	fileHandler.cpp
 STENO_OBJS=$(STENO_SRCS:.cpp=.o)
 STENO_EXE=Steno
 
@@ -30,7 +32,8 @@ STENO_EXE=Steno
 COMBO_SRCS= \
 	mainCombo.cpp \
 	crypto.cpp \
-	steno.cpp
+	steno.cpp \
+	fileHandler.cpp
 COMBO_OBJS=$(COMBO_SRCS:.cpp=.o)
 COMBO_EXE=ImgCrypt
 
