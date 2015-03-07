@@ -26,6 +26,9 @@ rgbPX calcArray_rgbPxAvg(uint8_t* str, uint64_t sz){
             continue;
         }
     }
+    px[rgbPX::RED]   = r / (sz / 3);
+    px[rgbPX::GREEN] = g / (sz / 3);
+    px[rgbPX::BLUE]  = b / (sz / 3);
     return px;
 }
 
