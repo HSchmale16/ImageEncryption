@@ -2,7 +2,7 @@
  * \author Henry J Schmale
  * \date March 5, 2015
  *
- * Contains stenography function prototypes
+ * Contains stenography function prototypes and struct declarations
  */
  
 #ifndef STENO_H_INC
@@ -11,8 +11,10 @@
 #include <cstdint>
 #include <cassert>
 
+/** \brief An RGB Pixel Struct for 24 bit color
+ */
 struct rgbPX{
-    uint8_t *m_c;
+    uint8_t *m_c; //!< Array to hold componet values
     
     static const int RED   = 0; //!< Array Index of red componet
     static const int GREEN = 1; //!< Array Index of green componet
@@ -43,6 +45,8 @@ struct rgbPX{
         return m_c[i];
     }
 };
+
+rgbPX calcArray_rgbPxAvg(uint8_t* str, uint64_t);
 
 void writeOutToImage(const char * fname, uint8_t *data, uint64_t lenData);
 
