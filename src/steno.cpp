@@ -11,6 +11,24 @@
 #include <cmath>
 #include <CImg.h>
 
+rgbPX calcArray_rgbPxAvg(uint8_t* str, uint64_t sz){
+    rgbPX px;
+    uint64_t r = 0, g = 0, b = 0;
+    for(uint64_t i = 0; i < sz; i++){
+        if(i % 3 == 0){
+            b += str[i];
+            continue;
+        }else if(i % 2 == 0){
+            g += str[i];
+            continue;
+        }else{
+            r += str[i];
+            continue;
+        }
+    }
+    return px;
+}
+
 void writeOutToImage(const char * fname, uint8_t *data,
                      uint64_t lenData){
     using namespace cimg_library;
@@ -34,14 +52,6 @@ void writeOutToImage(const char * fname, uint8_t *data,
     //std::cerr << "Finished Writting out image" << std::endl;
 }
 
-/** \brief Reads in data from image. 
- * \return The total ammount of memory allocated in
- * \param fname the name of the file read in.
- * \param readInStr - The pointer to readin to at. This ptr is allocated
- * in this function, so the param passed should be a NULL ptr.
- * \note The parameter `readInStr` should be a null pointer, as this
- * will allocate the memory for it to use.
- */
 uint64_t readInFromImage(const char *fname, uint8_t **readInStr){
     using namespace cimg_library;
     assert(*readInStr == NULL);   // This should be null
