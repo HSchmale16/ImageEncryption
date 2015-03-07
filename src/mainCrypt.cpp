@@ -52,12 +52,7 @@ int main(int argc, char **argv){
         assert(outdata != NULL);
         decryptString((uint8_t*)argv[4], strlen(argv[4]), indata,
                       fileLength, outdata, fileLength);
-        std::ofstream outfile;
-        outfile.open(argv[3], std::ios::binary);
-        for(uint64_t i = 0; i < fileLength; i++){
-            outfile << outdata[i];
-        }
-        outfile.close();
+        writeBinFile(argv[3], outdata, fileLength);
     }else{
         // invalid args
         std::cerr << "Invalid arguement as to whether to encrypt or "

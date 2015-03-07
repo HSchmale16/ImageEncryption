@@ -31,5 +31,13 @@ uint64_t readBinFile(const char* fname, uint8_t** data){
 }
 
 void writeBinFile(const char* fname, uint8_t* data, uint64_t length){
-
+    assert(fname != NULL);
+    assert(data  != NULL);
+    fstream outfile(fname, ios::out | ios::binary);
+    if(outfile.is_open()){
+        for(uint64_t i = 0; i < length; i++){
+            outfile << data[i];
+        }
+    }
+    outfile.close();
 }
