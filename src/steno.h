@@ -9,6 +9,40 @@
 #define STENO_H_INC
 
 #include <cstdint>
+#include <cassert>
+
+struct rgbPX{
+    uint8_t *m_c;
+    
+    static const int RED   = 0; //!< Array Index of red componet
+    static const int GREEN = 1; //!< Array Index of green componet
+    static const int BLUE  = 2; //!< Array Index of blue componet
+
+    // default ctor
+    rgbPX(){ m_c = new uint8_t[3]; }
+
+    rgbPX(uint8_t r, uint8_t g, uint8_t b)
+        :rgbPX(){
+        m_c[0] = r;
+        m_c[1] = g;
+        m_c[2] = b;
+    }
+
+    ~rgbPX(){
+        delete[] m_c;
+    }
+
+    void operator()(uint8_t r, uint8_t g, uint8_t b){
+        m_c[0] = r;
+        m_c[1] = g;
+        m_c[2] = b;
+    }
+
+    uint8_t& operator[](const int i){
+        assert((i >= 0) && (i < 3));
+        return m_c[i];
+    }
+};
 
 void writeOutToImage(const char * fname, uint8_t *data, uint64_t lenData);
 
