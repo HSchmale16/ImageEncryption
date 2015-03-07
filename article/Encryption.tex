@@ -64,19 +64,20 @@
 % MAIN CONTENT
 \section{Introduction}
   Encryption is a powerful tool to protect your information, but standard
-  encryption can be insecure if found. Additionally, it can be incriminating
-  if found, so that is why hiding the encrypted information is more important
-  then ever. The art and science of hiding information in plain sight is 
-  called stenography. This document describes the design and implementation
-  of such a system to encrypt and hide information inside of a standard 
-  image file.
+  encryption can be insecure if found. Additionally, it can be 
+  incriminating if found, so that is why hiding the encrypted 
+  information is more important then ever. The art and science of hiding
+  information in plain sight is called stenography. This document 
+  describes the design and implementation of such a system to encrypt
+  and hide information inside of a standard image file.
 
   \subsection{A Note About the Code in this Article}
-    The code samples featured in this article are written in C-style C++11.
-    This means that the code featured in this article makes use of c-style
-    arrays and direct bit manipulation. The main reason the code samples
-    featured in this article are written in C++11 is the use of standardized 
-    fixed-width integers included in the standard library.
+    The code samples featured in this article are written in C-style 
+    C++11. This means that the code featured in this article makes use 
+    of c-style arrays and direct bit manipulation. The main reason the 
+    code samples featured in this article are written in C++11 is the 
+    use of standardized fixed-width integers included in the standard 
+    library.
 
 \section{Encryption and Decryption}
   The encryption used in this system is a simple XOR rotation cipher.
@@ -100,12 +101,13 @@
             \times B)}_\text{places}) 
   \end{equation}
 
-  Equation \eqref{eq:keyDerive} describes how to calculate the key value to use
-  in iteration \( i \) of the encryption algorithim. It requires the use
-  of a bitwise rotate operation so that no data is lost, through the
-  replacement by zeros when using standard bitwise shifts. And as zeros
-  are introduced into the key, the resulting value of an XOR would no
-  longer work as a key, because the encoded values would remain the same.
+  Equation \eqref{eq:keyDerive} describes how to calculate the key 
+  value to use in iteration \( i \) of the encryption algorithim. 
+  It requires the use of a bitwise rotate operation so that no data 
+  is lost, through the replacement by zeros when using standard 
+  bitwise shifts. And as zeros are introduced into the key, the 
+  resulting value of an XOR would no longer work as a key, because
+  the encoded values would remain the same.
 
   This algorithim can use an n-bit key as the new key value is
   determined independtly of the length of the key and provides
@@ -160,12 +162,12 @@
     \caption{An Improved XOR rotation cipher}
     \end{figure}
     
-    As you can see the second example is much more confusing, as it involves
-    manipulation of the actual key. As more confusion is better in 
-    cryptography the second algorithim is much better.
-    Additionally, the encryption process can be described as a mathmatical
-    formula, as seen in equation \eqref{eq:Encrypt}. With \(K_i\) as defined
-    in equation \eqref{eq:keyDerive}.
+    As you can see the second example is much more confusing, as it 
+    involves manipulation of the actual key. As more confusion is 
+    better in cryptography the second algorithim is much better.
+    Additionally, the encryption process can be described as a
+    mathmatical formula, as seen in equation \eqref{eq:Encrypt}. 
+    With \(K_i\) as defined in equation \eqref{eq:keyDerive}.
     
     \begin{equation}
       \label{eq:Encrypt}
@@ -175,35 +177,38 @@
     \subsubsection{Programming an Encryption Algorithim}
     Now to implement such an algorithim in C++, we need to perform several
     checks before we can even begin. First of all, nulls must be
-    checked for, as three parameters are pointers, and can be null. As writing
-    to a null pointer would cause a segmentation fault, it must be checked for.
-    Therefore, the encryption function should start with a couple of standard
-    asserts or macro that does the same thing. Additionally, memory allocation
-    sizes must be checked, otherwise the encryption function might write to
+    checked for, as three parameters are pointers, and can be null.
+    As writing to a null pointer would cause a segmentation fault, 
+    it must be checked for. Therefore, the encryption function should 
+    start with a couple of standard asserts or macro that does the same
+    thing. Additionally, memory allocation sizes must be checked,
+    otherwise the encryption function might write to
     memory that the program hasn't  been allocated, causing another
     segmentation fault. Finally, the encryption key must be copied into
-    local memory as the Key is passed by pointer, and can be modified within
-    that function and returned via pointer, the encryption key might be used
-    in other parts of the program and should be treated as constant memory.
-    Therefore, there are several checks to be made before even running the
-    algorithim.
+    local memory as the Key is passed by pointer, and can be modified
+    within that function and returned via pointer, the encryption key
+    might be used in other parts of the program and should be treated
+    as constant memory. Therefore, there are several checks to be made
+    before even running the algorithim.
     
     Additionally, the implemented algorithim must defend against cold-boot
     attacks, so the usage of memory that clears itself after being used
     is a must. This is especially important where the encryption key
-    was stored. Therefore, a for loop is used to clear the allocated memory
-    before the encryption function returns to the caller. Also, the
-    encryption program must defend against multiple other kinds of attacks,
-    most of which depend on finding the encryption key sitting somewhere
-    in memory, therefore the encryption keys used in this program shouldn't
-    look like normal keys at all, to protect against such an attack.
+    was stored. Therefore, a for loop is used to clear the allocated
+    memory before the encryption function returns to the caller. 
+    Also, the encryption program must defend against multiple other 
+    kinds of attacks, most of which depend on finding the encryption 
+    key sitting somewhere in memory, therefore the encryption keys 
+    used in this program shouldn't look like normal keys at all, 
+    to protect against such an attack.
     
-    Now, when implementing the actual algorithim your function will require
-    six parameters to be passed to it, if one is implementing it in C/C++.
-    Three parameters are pointers to hold the input, output, and the key, the
-    rest are to hold the amount of memory allocated to each pointer. When
-    implementing the for loops, a 64-bit counter will be necessary due to the
-    possibly large amount of input data.
+    Now, when implementing the actual algorithim your function will
+    require six parameters to be passed to it, if one is implementing 
+    it in C/C++. Three parameters are pointers to hold the input, 
+    output, and the key, the rest are to hold the amount of memory
+    allocated to each pointer. When implementing the for loops, 
+    a 64-bit counter will be necessary due to the possibly large
+    amount of input data.
 
     \singlespacing
     \begin{lstlisting}[caption=C++ Encryption Source Code]
@@ -266,9 +271,10 @@ void encryptString(const uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
 
     To undo the encryption algorithim, the key used to encrypt the message
     originally, and the exact operations used to encrypt the message must
-    be done in reverse, however the operations performed on the key must be
-    exactly the same operations originally if the encrypted message is being
-    iterated forwards, in order to keep the key consistant with the message.
+    be done in reverse, however the operations performed on the key must
+    be exactly the same operations originally if the encrypted message
+    is being iterated forwards, in order to keep the key consistant 
+    with the message.
     
     \begin{equation}
       \label{eq:XORinversion}
@@ -285,10 +291,11 @@ void encryptString(const uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
 
     \subsubsection{Programming a Decryption Algorithim}
     Implementing a decryption algorithim is a bit more challenging than
-    implementing an encryption algorithim. As some encrypted data can include
-    some padding in the actual message, or in other words garbage information.
-    Recognizing the padding can be a major challenge, as some messages might
-    have padding, while other messages might not.
+    implementing an encryption algorithim. As some encrypted data can
+    include some padding in the actual message, or in other words 
+    garbage information. Recognizing the padding can be a major
+    challenge, as some messages might have padding, while other 
+    messages might not.
 
     \singlespacing
     \begin{lstlisting}[caption=C++ Decryption Code]
@@ -328,16 +335,19 @@ void decryptString(const uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
   
   \subsection{Image Stenography}
     As images are a very common feature in the modern internet browsing
-    experience, making it not hard to see that hiding a message inside of an
-    image is a great idea. However, most images found in modern web pages
-    are compressed images, which can either be lossless or lossy. Lossy
-    compression is bad for stenography in images as it causes the loss
-    of data in the image, and can corrupt the message. As such lossless
-    compression, which doesn't change the byte values of each pixel, 
-    thus making it superior for stenography.
+    experience, making it not hard to see that hiding a message inside 
+    of an image is a great idea. However, most images found in 
+    modern web pages are compressed images, which can either be either
+    lossless or lossy. Lossy compression is bad for stenography in 
+    images as it causes the loss of data in the image, and can
+    corrupt the message. As such lossless compression, which doesn't 
+    change the byte values of each pixel, thus making it superior 
+    for stenography.
     
     \subsubsection{Hiding a Message}
-    
+      A message can be hidden in inside of any image. However it is best 
+      to hide a message inside of a section of an image where the pixel
+      values surrounding the message will hide the message.
     
     \subsubsection{Recovering a Message}    
 
