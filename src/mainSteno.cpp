@@ -25,7 +25,18 @@
  * 3. <output file>
  *    
  *    File to output to
+ *    
+ *    if (h) is specified then this should have an image file extension
  *
+ * 4. [<x> <y> <width> <height>] Region in image to use
+ *    
+ *    data written out to the image must be able to fit into this region
+ *    if specified.
+ *
+ *    <x>      - x posisition inside of the image  
+ *    <y>      - y posisition inside of the image
+ *    <width>  - +x region to fill in
+ *    <height> - +y region to fill in   
  */
 
 #include "steno.h"

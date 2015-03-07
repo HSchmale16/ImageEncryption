@@ -46,7 +46,12 @@ struct rgbPX{
     }
 };
 
-rgbPX calcArray_rgbPxAvg(uint8_t* str, uint64_t);
+
+/** \brief calculates RGB Pixel value averages for a given data set.
+ * \param str the data set to use
+ * \param sz  The length of data set.
+ */
+rgbPX calcArray_rgbPxAvg(uint8_t* str, uint64_t sz);
 
 void writeOutToImage(const char * fname, uint8_t *data, uint64_t lenData);
 
