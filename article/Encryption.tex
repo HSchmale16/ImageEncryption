@@ -347,10 +347,20 @@ void decryptString(const uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
     \subsubsection{Hiding a Message}
       A message can be hidden in inside of any image. However it is best 
       to hide a message inside of a section of an image where the pixel
-      values surrounding the message will hide the message.
+      values surrounding the message will hide the message. As the goal
+      is to make the hidden message to look like it belongs in that
+      picture, the colors must match up. As such an area must be found
+      in the hidding place for the message. However, as it would be
+      computationally expensive to search for it by computer, the
+      message is averaged instead, and the user specifies where to put
+      the message inside the image.
+
     
     \subsubsection{Recovering a Message}    
-
+      Recovering a message is not that complicated. As all that needs
+      to be done is read out the pixel values in the exact order they
+      were placed into the image. As such it can be recovered with a
+      simple nested FOR loop.
 
     \subsubsection{Implementing Stenography}
     Implementing stenography with images requires use of a library, so
