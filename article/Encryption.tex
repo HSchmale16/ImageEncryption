@@ -360,7 +360,9 @@ void decryptString(const uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
       Recovering a message is not that complicated. As all that needs
       to be done is read out the pixel values in the exact order they
       were placed into the image. As such it can be recovered with a
-      simple nested FOR loop.
+      simple nested FOR loop. Then copying those values into an array
+      of sorts. After that some kind of transformation is ran to
+      transform the recovered data to it's original form.
 
     \subsubsection{Implementing Stenography}
     Implementing stenography with images requires use of a library, so
