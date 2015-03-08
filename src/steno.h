@@ -53,7 +53,25 @@ struct rgbPX{
  */
 rgbPX calcArray_rgbPxAvg(uint8_t* str, uint64_t sz);
 
-void writeOutToImage(const char * fname, uint8_t *data, uint64_t lenData);
+/** \brief writes out to an image file the data specified
+ * \param fname   Name of file to write out to
+ * \param data    The data write out to the file
+ * \param lenData the length of the data ptr to write out
+ */
+void writeOutToImage(const char* fname, uint8_t *data, uint64_t lenData);
+
+/** \brief writes out pixel data to a specific part of an image.
+ * \param fname   Name of file to write out
+ * \param data    The data to write out
+ * \param lenData Data Length
+ * \param x       x posisition
+ * \param y       y posisition
+ * \param width   width of section to write to
+ * \param height  height of section to write to
+ */
+void writeOutToImage(const char* fname, uint8_t *data, uint64_t lenData,
+                     uint32_t x, uint32_t y, uint32_t width,
+                     uint32_t height);
 
 /** \brief Reads in data from image. 
  * \return The total ammount of memory allocated in

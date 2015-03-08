@@ -55,6 +55,12 @@ void writeOutToImage(const char * fname, uint8_t *data,
     //std::cerr << "Finished Writting out image" << std::endl;
 }
 
+void writeOutToImage(const char* fname, uint8_t* data, uint64_t lenData,
+                     uint32_t x, uint32_t y, uint32_t width,
+                     uint32_t height){
+
+}
+
 uint64_t readInFromImage(const char *fname, uint8_t **readInStr){
     using namespace cimg_library;
     assert(*readInStr == NULL);   // This should be null
