@@ -58,7 +58,10 @@ void writeOutToImage(const char * fname, uint8_t *data,
 void writeOutToImage(const char* fname, uint8_t* data, uint64_t lenData,
                      uint32_t x, uint32_t y, uint32_t width,
                      uint32_t height){
-
+    using namespace cimg_library;
+    assert(fname != NULL);
+    assert(data  != NULL);
+    CImg<uint8_t> img(fname);
 }
 
 uint64_t readInFromImage(const char *fname, uint8_t **readInStr){
