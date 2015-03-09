@@ -67,16 +67,9 @@ void writeOutToImage(const char *fname, uint8_t *data, uint64_t lenData,
 uint64_t readInFromImage(const char *fname, uint8_t **readInStr){
     using namespace cimg_library;
     assert(*readInStr == NULL);   // This should be null
-    assert(fname != NULL);       // This must be a valid image file
+    assert(fname != NULL);        // This must be a valid image file
     CImg<uint8_t> img(fname);
     uint64_t SZ = img.width() * img.height() * img.spectrum();
-    for(int32_t x = 0; x < img.width(); x++){
-        for(int32_t y = 0; y < img.height(); y++){
-            for(int8_t c = 0; c < img.spectrum(); c++){
-            
-            }
-        }
-    }
     *readInStr = new uint8_t[SZ];
     uint64_t i = 0;
     for(int32_t x = 0; x < img.width(); x++){
@@ -95,5 +88,9 @@ uint64_t readInFromImage(const char *fname, uint8_t **readInStr){
 uint64_t readInFromImage(const char *fname, uint8_t **readInStr,
                          uint32_t x, uint32_t y, uint32_t width,
                          uint32_t height){
-    
+    using namespace cimg_library;
+    assert(*readInStr == NULL);
+    assert(fname != NULL);
+    CImg<uint8_t> img(fname);
+    uint64_t sz;
 }
