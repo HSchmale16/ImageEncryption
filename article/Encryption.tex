@@ -96,7 +96,7 @@
   \begin{equation}
     \label{eq:keyDerive}
     K_i = rotateRight(
-        \underbrace{K_i \bmod length(K)}_\text{Value to rotate},
+        \underbrace{K_{i \bmod length(K)}}_\text{Value to rotate},
         \underbrace{\frac{i}{length(K)} \bmod (sizeof(type(K)) 
             \times B)}_\text{places}) 
   \end{equation}
