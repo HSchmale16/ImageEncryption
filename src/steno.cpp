@@ -11,7 +11,7 @@
 #include <cmath>
 #include <CImg.h>
 
-rgbPX calcArray_rgbPxAvg(uint8_t* str, uint64_t sz){
+rgbPX calcArray_rgbPxAvg(uint8_t *str, uint64_t sz){
     rgbPX px;
     uint64_t r = 0, g = 0, b = 0;
     for(uint64_t i = 0; i < sz; i++){
@@ -32,7 +32,7 @@ rgbPX calcArray_rgbPxAvg(uint8_t* str, uint64_t sz){
     return px;
 }
 
-void writeOutToImage(const char * fname, uint8_t *data,
+void writeOutToImage(const char *fname, uint8_t *data,
                      uint64_t lenData){
     using namespace cimg_library;
     int64_t sideLen = sqrt(ceil(lenData / 3.0)) + 1;
@@ -55,7 +55,7 @@ void writeOutToImage(const char * fname, uint8_t *data,
     //std::cerr << "Finished Writting out image" << std::endl;
 }
 
-void writeOutToImage(const char* fname, uint8_t* data, uint64_t lenData,
+void writeOutToImage(const char *fname, uint8_t *data, uint64_t lenData,
                      uint32_t x, uint32_t y, uint32_t width,
                      uint32_t height){
     using namespace cimg_library;
@@ -90,4 +90,10 @@ uint64_t readInFromImage(const char *fname, uint8_t **readInStr){
         }
     }
     return i;
+}
+
+uint64_t readInFromImage(const char *fname, uint8_t **readInStr,
+                         uint32_t x, uint32_t y, uint32_t width,
+                         uint32_t height){
+    
 }

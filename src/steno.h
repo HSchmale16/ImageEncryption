@@ -51,14 +51,14 @@ struct rgbPX{
  * \param str     The data set to use
  * \param sz      The length of data set.
  */
-rgbPX calcArray_rgbPxAvg(uint8_t* str, uint64_t sz);
+rgbPX calcArray_rgbPxAvg(uint8_t *str, uint64_t sz);
 
 /** \brief writes out to an image file the data specified
  * \param fname   Name of file to write out to
  * \param data    The data write out to the file
  * \param lenData the length of the data ptr to write out
  */
-void writeOutToImage(const char* fname, uint8_t *data, uint64_t lenData);
+void writeOutToImage(const char *fname, uint8_t *data, uint64_t lenData);
 
 /** \brief writes out pixel data to a specific part of an image.
  * \param fname   Name of file to write out
@@ -69,7 +69,7 @@ void writeOutToImage(const char* fname, uint8_t *data, uint64_t lenData);
  * \param width   width of section to write to
  * \param height  height of section to write to
  */
-void writeOutToImage(const char* fname, uint8_t *data, uint64_t lenData,
+void writeOutToImage(const char *fname, uint8_t *data, uint64_t lenData,
                      uint32_t x, uint32_t y, uint32_t width,
                      uint32_t height);
 
@@ -81,7 +81,7 @@ void writeOutToImage(const char* fname, uint8_t *data, uint64_t lenData,
  * \note The parameter `readInStr` should be a null pointer, as this
  * will allocate the memory for it to use.
  */
-uint64_t readInFromImage(const char* fname, uint8_t **readInStr);
+uint64_t readInFromImage(const char *fname, uint8_t **readInStr);
 
 /** \brief Reads data in to a cstring from an image file with bounds specified
  * \return The total amount of memory allocated to readInStr
@@ -92,7 +92,7 @@ uint64_t readInFromImage(const char* fname, uint8_t **readInStr);
  * \param width     Width of the bounded area
  * \param height    Height of the bounded area
  */
-uint64_t readInFromImage(const char* fname, uint8_t **readInStr,
+uint64_t readInFromImage(const char *fname, uint8_t **readInStr,
                         uint32_t x, uint32_t y, uint32_t width,
                         uint32_t height);
 
