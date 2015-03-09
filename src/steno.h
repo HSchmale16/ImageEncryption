@@ -48,8 +48,8 @@ struct rgbPX{
 
 
 /** \brief calculates RGB Pixel value averages for a given data set.
- * \param str the data set to use
- * \param sz  The length of data set.
+ * \param str     The data set to use
+ * \param sz      The length of data set.
  */
 rgbPX calcArray_rgbPxAvg(uint8_t* str, uint64_t sz);
 
@@ -74,13 +74,26 @@ void writeOutToImage(const char* fname, uint8_t *data, uint64_t lenData,
                      uint32_t height);
 
 /** \brief Reads in data from image. 
- * \return The total ammount of memory allocated in
+ * \return The total ammount of memory allocated to readInStr
  * \param fname the name of the file read in.
  * \param readInStr - The pointer to readin to at. This ptr is allocated
  * in this function, so the param passed should be a NULL ptr.
  * \note The parameter `readInStr` should be a null pointer, as this
  * will allocate the memory for it to use.
  */
-uint64_t readInFromImage(const char *fname, uint8_t **readInStr);
+uint64_t readInFromImage(const char* fname, uint8_t **readInStr);
+
+/** \brief Reads data in to a cstring from an image file with bounds specified
+ * \return The total amount of memory allocated to readInStr
+ * \param fname     The file name to open
+ * \param readInStr Where to put the read in data, should be a NULL ptr
+ * \param x         X-axis posisition
+ * \param y         Y-axis posisition
+ * \param width     Width of the bounded area
+ * \param height    Height of the bounded area
+ */
+uint64_t readInFromImage(const char* fname, uint8_t **readInStr,
+                        uint32_t x, uint32_t y, uint32_t width,
+                        uint32_t height);
 
 #endif // STENO_H_INC
