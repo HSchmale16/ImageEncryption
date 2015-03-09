@@ -90,7 +90,13 @@ uint64_t readInFromImage(const char *fname, uint8_t **readInStr,
                          uint32_t height){
     using namespace cimg_library;
     assert(*readInStr == NULL);
-    assert(fname != NULL);
+    assert(fname      != NULL);
+    assert(width      != 0);
+    assert(height     != 0);
     CImg<uint8_t> img(fname);
-    uint64_t sz;
+    uint64_t SZ = width * height;
+    uint64_t i;
+    // \todo Implement ReadIn
+
+    return i;
 }
