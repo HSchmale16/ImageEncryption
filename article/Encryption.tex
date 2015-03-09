@@ -364,11 +364,13 @@ void decryptString(const uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
       of sorts. After that some kind of transformation is ran to
       transform the recovered data to it's original form.
 
-    \subsubsection{Implementing Stenography}
-    Implementing stenography with images requires use of a library, so
-    as to provide an easy way to write out to multiple formats. As such,
-    the library being used to implement this solution is the CImg library
-    \cite{cimg}.
+    \subsubsection{Implementing Image Stenography}
+      Implementing stenography with images is quite a challenge due to
+      the varity of image formats available on the internet. Therefore,
+      using a libray to abstract away file I/O away is neccessary.  As
+      such, the CImg library provides a simple interface to do this
+      \cite{cimg}. Additionally, it provides a real easy way to think of
+      images as just multidimensional arrays.
 
 % Biblography
 \bibliographystyle{plain}
