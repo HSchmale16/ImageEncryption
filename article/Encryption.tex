@@ -352,8 +352,9 @@ void decryptString(const uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
       picture, the colors must match up. As such an area must be found
       in the hidding place for the message. However, as it would be
       computationally expensive to search for it by computer, the
-      message is averaged instead, and the user specifies where to put
-      the message inside the image.
+      messages values are averaged to find the average RGB values 
+      instead, and the user specifies where to put the message 
+      inside the image.
 
     
     \subsubsection{Recovering a Message}    
@@ -370,8 +371,12 @@ void decryptString(const uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
       using a libray to abstract away file I/O away is neccessary.  As
       such, the CImg library provides a simple interface to do this
       \cite{cimg}. Additionally, it provides a real easy way to think of
-      images as just multidimensional arrays.
+      images as just multidimensional arrays, and it provides a simple
+      class with extremely powerful set of methods to work with images.
+      Thus, making the CImg library the best choice for implementing 
+      stenography with images.
 
+      
 % Biblography
 \bibliographystyle{plain}
 \bibliography{Encryption.bib}
