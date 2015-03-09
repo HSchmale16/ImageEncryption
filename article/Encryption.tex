@@ -131,7 +131,7 @@
     \For{$i=0; i < length(OriginalMessage); i++$}
       \State $EncryptedMesage_i =
              OriginalMessage_i \oplus Key_{i \bmod length(Key)}$
-      \State $EncryptedMessage_i = rotateRight(EncryptedMessage_i$
+      \State $EncryptedMessage_i = rotateRight(EncryptedMessage_i)$
     \EndFor 
     \end{algorithmic}
     \caption{A Basic XOR rotation cipher}
