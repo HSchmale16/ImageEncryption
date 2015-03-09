@@ -355,8 +355,13 @@ void decryptString(const uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
       messages values are averaged to find the average RGB values 
       instead, and the user specifies where to put the message 
       inside the image.
-
-    
+      
+      Additionally, there are many patterns that the message can be
+      written out as. A message can be written out as rows, columns,
+      or a set of concentric circles. It doesn't really matter so long
+      as the pixels are read back in the same order as they were
+      written out.
+          
     \subsubsection{Recovering a Message}    
       Recovering a message is not that complicated. As all that needs
       to be done is read out the pixel values in the exact order they
