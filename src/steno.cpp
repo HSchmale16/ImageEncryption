@@ -94,9 +94,18 @@ uint64_t readInFromImage(const char *fname, uint8_t **readInStr,
     assert(width      != 0);
     assert(height     != 0);
     CImg<uint8_t> img(fname);
-    uint64_t SZ = width * height;
-    uint64_t i;
-    // \todo Implement ReadIn
-
+    uint64_t SZ = width * height * img.spectrum();
+    uint64_t i = 0;
+    *readInStr = new uint8_t[SZ];
+    for(int32_t x1 = x; x1 < (x + width); x1++){
+        for(int32_t y1 = y; y1 < (y + height); y1++){
+            for(int32_t c = 0; c < img.spectrum(); c++){
+                if(i < SZ){
+                    (*readInStr)[i] = img(x1, y1, 0, c);
+                    i++;
+                }
+            }
+        }
+    }
     return i;
 }
