@@ -4,7 +4,6 @@
 
 CXX=g++
 CXX_FLAGS= \
-	-Wall \
 	-std=c++11
 LD_FLAGS= \
 	-lm \

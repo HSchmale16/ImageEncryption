@@ -50,7 +50,6 @@ function diffTestData {
 cmp -s $testdata $1 >/dev/null
 if [ $? -eq 0 ]; then    
     echo -e "${PASS}PASS${NC}]"
-    CleanUp
 else
     echo -e "${FAIL}FAIL${NC}]"
 fi

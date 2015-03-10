@@ -39,9 +39,9 @@ void writeOutToImage(const char *fname, uint8_t *data,
     CImg<uint8_t> img(sideLen, sideLen, 1, 3);
     img.fill(0);
     uint64_t i = 0;
-    for(int32_t x = 0; x < sideLen; x++){
-        for(int32_t y = 0; y < sideLen; y++){
-            for(int8_t c = 0; c < 3; c++){
+    for(uint32_t x = 0; x < sideLen; x++){
+        for(uint32_t y = 0; y < sideLen; y++){
+            for(uint8_t c = 0; c < 3; c++){
                 if(i < lenData){
                     img(x, y, 0, c) = data[i];
                     i++;
@@ -72,9 +72,9 @@ uint64_t readInFromImage(const char *fname, uint8_t **readInStr){
     uint64_t SZ = img.width() * img.height() * img.spectrum();
     *readInStr = new uint8_t[SZ];
     uint64_t i = 0;
-    for(int32_t x = 0; x < img.width(); x++){
-        for(int32_t y = 0; y < img.height(); y++){
-            for(int8_t c = 0; c < img.spectrum(); c++){
+    for(uint32_t x = 0; x < img.width(); x++){
+        for(uint32_t y = 0; y < img.height(); y++){
+            for(uint8_t c = 0; c < img.spectrum(); c++){
                 if(i < SZ){
                     (*readInStr)[i] = img(x, y, 0, c);
                     i++;
@@ -97,9 +97,9 @@ uint64_t readInFromImage(const char *fname, uint8_t **readInStr,
     uint64_t SZ = width * height * img.spectrum();
     uint64_t i = 0;
     *readInStr = new uint8_t[SZ];
-    for(int32_t x1 = x; x1 < (x + width); x1++){
-        for(int32_t y1 = y; y1 < (y + height); y1++){
-            for(int32_t c = 0; c < img.spectrum(); c++){
+    for(uint32_t x1 = x; x1 < (x + width); x1++){
+        for(uint32_t y1 = y; y1 < (y + height); y1++){
+            for(uint32_t c = 0; c < img.spectrum(); c++){
                 if(i < SZ){
                     (*readInStr)[i] = img(x1, y1, 0, c);
                     i++;
