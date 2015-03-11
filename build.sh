@@ -48,5 +48,7 @@ else
         echo -e "${FAIL}FAIL${NC}]"
     fi                                 # End Clean the build
 
-    
+    echo -n -e "Remove Generated Test files             ["
+    rm $(find . -name "Test.*")
+    echo -e "${PASS}PASS${NC}]"
 fi
