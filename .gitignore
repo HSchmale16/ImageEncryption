@@ -25,3 +25,6 @@ Steno
 
 # Editor Files
 *.swp
+
+# generated man pages
+*.1
