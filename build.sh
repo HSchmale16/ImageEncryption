@@ -8,13 +8,13 @@ articleDir="$(pwd)/article"
 srcDir="$(pwd)/src"
 latexEng=pdflatex
 
-# COLOR CONSTANTS
+# VARIOUS CONSTANTS - Color and null device
 NC='\033[0m'                           # No Color
 PASS='\033[0;32m'                      # Green, passed test
 FAIL='\033[0;31m'                      # Red, failed test
 NULL='/dev/null'                       # Null Device
 
-if [ $# -eq 1 ] ; then                 # If they're no args then build
+if [ $# -eq 0 ] ; then                 # If they're no args then build
     # Build the src code & test the exe on
     # encryption and decryption
     cd $srcDir
@@ -37,5 +37,16 @@ else
     echo 'An arg has been detected, this triggers a clean build'
     echo -n -e "Remove Built Article                    ["
     if [ -e article/*.pdf ] ; then rm article/*.pdf ; fi
-    echo -e "${PASS}PASS${NC}]"
+    echo -e "${PASS}PASS${NC}]"        # End of Article Clean Up
+    
+    echo -n -e "Clean Build Objects                     ["
+    cd $srcDir
+    make clean > $NULL                 # Clean the build
+    if [ $? -eq 0 ] ; then
+        echo -e "${PASS}PASS${NC}]"
+    else
+        echo -e "${FAIL}FAIL${NC}]"
+    fi                                 # End Clean the build
+
+    
 fi
