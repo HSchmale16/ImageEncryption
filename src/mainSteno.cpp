@@ -1,4 +1,4 @@
-/** Stenography
+/* Stenography
  * \author Henry J Schmale
  * \date February 25, 2015
  * \file mainSteno.cpp
@@ -40,8 +40,20 @@
  */
 
 #include "steno.h"
+#include "fileHandler.h"
 
 // Program Entry Point
 int main(int argc, char **argv){
-    
+    uint8_t *infile  = 0, 
+            *outfile = 0;
+    uint64_t length  = 0;
+    switch(argv[1][0]){
+    case 'h':                // hide
+        
+        break;
+    case 'r':                // recover
+        break;
+    case 'a':                // average
+        break;
+    }
 }
