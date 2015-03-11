@@ -344,6 +344,12 @@ void decryptString(const uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
     change the byte values of each pixel, thus making it superior 
     for stenography.
     
+    The easist way to think of images is as a multidimensional array.
+    Which is pretty much exactly what images are. As all images are
+    essentially a three dimensional array. With two dimensions being
+    length and width, and another dimension being the color at that 
+    point.
+
     \subsubsection{Hiding a Message}
       A message can be hidden in inside of any image. However it is best 
       to hide a message inside of a section of an image where the pixel
