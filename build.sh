@@ -1,6 +1,11 @@
 # Build Script for this project
 # Henry J Schmale
 # March 3, 2015
+#
+# Builds the project with all subprojects if *NO* args are passed
+# However if args are passed to this script it removes all of the
+# generated files from building and testing the project.
+
 
 # Define Pathes
 projectDir=$(pwd)
