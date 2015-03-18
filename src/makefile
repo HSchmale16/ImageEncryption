@@ -2,6 +2,10 @@
 # \author Henry J Schmale
 # \date 26 February 2015
 
+# Shell Setup
+SHELL=/bin/bash -O extglob -c
+
+# Compiler Setup
 CXX=g++
 CXX_FLAGS= \
 	-std=c++11
@@ -36,8 +40,12 @@ COMBO_SRCS= \
 COMBO_OBJS=$(COMBO_SRCS:.cpp=.o)
 COMBO_EXE=ImgCrypt
 
+# ALL OF THE SOURCE CODE
+ALLSRC=$(shell ls *.+(cpp|h) )
+
 # Primary Build Target, Builds Everything and all other targets
-all: $(CRYPT_EXE)  \
+all: depend \
+	 $(CRYPT_EXE)  \
 	 $(STENO_EXE) \
 	 $(COMBO_EXE)
 
@@ -61,3 +69,11 @@ clean:
 	if [ -e $(CRYPT_EXE) ] ; then rm -f $(CRYPT_EXE) ; fi
 	if [ -e $(COMBO_EXE) ] ; then rm -f $(COMBO_EXE) ; fi
 	rm -rf *.o
+
+depend: .depend
+
+.depend: $(ALLSRC)
+	rm -f ./.depend
+	$(CXX) $(CXX_FLAGS) -MM $^ > ./.depend
+
+include .depend 

@@ -28,3 +28,6 @@ Steno
 
 # generated man pages
 *.1
+
+# Dependcy Resolution
+.depend
