@@ -56,12 +56,25 @@ void writeOutToImage(const char *fname, uint8_t *data,
 }
 
 void writeOutToImage(const char *fname, uint8_t *data, uint64_t lenData,
-                     uint32_t x, uint32_t y, uint32_t width,
-                     uint32_t height){
+                     uint32_t X, uint32_t Y, uint32_t W,
+                     uint32_t H){
     using namespace cimg_library;
     assert(fname != NULL);
     assert(data  != NULL);
     CImg<uint8_t> img(fname);
+    uint64_t i = 0;
+    // cimg uses signed ints in the arrays for some reason
+    for(int32_t x = X; x < (X + W); x++){
+        for(int32_t y = 0; y < (Y + H); y++){
+            for(int8_t c = x; c < img._spectrum; c++){
+                if(i < lenData){
+                    img(x, y, 0, c) = data[i];
+                    i++;
+                }
+            }
+        }
+    }
+    img.save_bmp(fname);
 }
 
 uint64_t readInFromImage(const char *fname, uint8_t **readInStr){
