@@ -366,7 +366,8 @@ void decryptString(const uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
       written out as. A message can be written out as rows, columns,
       or a set of concentric circles. It doesn't really matter so long
       as the pixels are read back in the same order as they were
-      written out.
+      written out. However there is an exception to this rule where
+      a value that has already been written out must not be overwritten.
           
     \subsubsection{Recovering a Message}    
       Recovering a message is not that complicated. As all that needs
@@ -387,7 +388,7 @@ void decryptString(const uint8_t *KEY, uint16_t keyLen, uint8_t *instr,
       Thus, making the CImg library the best choice for implementing 
       stenography with images.
 
-      
+            
 % Biblography
 \bibliographystyle{plain}
 \bibliography{Encryption.bib}
