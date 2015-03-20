@@ -39,17 +39,26 @@
  *    <height> - +y region to fill in   
  */
 
-#include "steno.h"
-#include "fileHandler.h"
+#include <iostream>                    // For stdio I/O opps
+#include "steno.h"                     // Declarations of funcs
+#include "fileHandler.h"               // File Handling Subsystem
+
+using namespace std;
 
 // Program Entry Point
 int main(int argc, char **argv){
     uint8_t *infile  = 0, 
             *outfile = 0;
     uint64_t length  = 0;
+    if(argc < 4){
+        cerr << "Up! You darn screwed up and didn't pass enough args to the "
+                "program." << endl;
+        cerr << argv[0] 
+             << "<h|r|a> <infile> <outfile> [<x> <y> <width> <height>]"
+             << endl;
+    }        
     switch(argv[1][0]){
     case 'h':                // hide
-        
         break;
     case 'r':                // recover
         break;
