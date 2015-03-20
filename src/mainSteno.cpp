@@ -56,7 +56,14 @@ int main(int argc, char **argv){
         cerr << argv[0] 
              << "<h|r|a> <infile> <outfile> [<x> <y> <width> <height>]"
              << endl;
-    }        
+        goto fail;
+    }
+    length  = readBinFile(argv[2], &infile);
+    if(infile == NULL){
+        cerr << "Error Loading File: " << argv[2] << endl;
+        goto fail;
+    }
+    outfile = new uint8_t[length];
     switch(argv[1][0]){
     case 'h':                // hide
         break;
@@ -65,4 +72,8 @@ int main(int argc, char **argv){
     case 'a':                // average
         break;
     }
+fail:
+   delete[] infile;
+   delete[] outfile;
+   return 0; 
 }
