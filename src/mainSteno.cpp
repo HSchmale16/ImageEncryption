@@ -39,6 +39,7 @@
  *    <height> - +y region to fill in   
  */
 
+#include <cstdio>                      // Printf is awesome
 #include <iostream>                    // For stdio I/O opps
 #include "steno.h"                     // Declarations of funcs
 #include "fileHandler.h"               // File Handling Subsystem
@@ -70,6 +71,19 @@ int main(int argc, char **argv){
     case 'r':                // recover
         break;
     case 'a':                // average
+        uint64_t sum[3] = {0};
+        for(uint64_t i = 0; i < length; i++){
+            uint8_t val = i % 3; // RGB Pixel Channels
+            if(val == 0){
+                sum[2] += infile[i];
+            }else if(val == 1){
+                sum[1] += infile[i];
+            }else{
+                sum[0] += infile[i];
+            }
+        }
+        printf("Average Value of Message: %d, %d, %d\n",
+               sum[0], sum[1], sum[2]);
         break;
     }
 fail:
