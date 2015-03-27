@@ -70,7 +70,7 @@ int main(int argc, char **argv){
         break;
     case 'r':                // recover
         break;
-    case 'a':                // average
+    case 'a':                // average the message for a set of rgb values
         uint64_t sum[3] = {0};
         for(uint64_t i = 0; i < length; i++){
             uint8_t val = i % 3; // RGB Pixel Channels
