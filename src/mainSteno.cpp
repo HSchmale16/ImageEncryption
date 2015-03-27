@@ -52,8 +52,8 @@ int main(int argc, char **argv){
             *outfile = 0;
     uint64_t length  = 0;
     if(argc < 4){
-        cerr << "Up! You darn screwed up and didn't pass enough args to the "
-                "program." << endl;
+        cerr << "Up! You darn screwed up and didn't pass enough args to"
+                " the program." << endl;
         cerr << argv[0] 
              << "<h|r|a> <infile> <outfile> [<x> <y> <width> <height>]"
              << endl;
